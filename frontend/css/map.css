@@ -1,0 +1,2715 @@
+﻿.section-map-ce {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.section-map-ce--perfil .map-ce-layer-row__graduated,
+.section-map-ce--perfil .map-ce-main__kpis,
+.section-map-ce--perfil .map-ce-regioes-foot,
+.section-map-ce--perfil .map-ce-rankings-wrap,
+.section-map-ce--perfil .map-ce-region-charts-wrap,
+.section-map-ce--perfil .map-ce-line-wrap {
+  display: none;
+}
+
+.section-map-ce--perfil .map-ce-layer-row__perfil {
+  display: flex;
+}
+
+.section-map-ce--perfil .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  grid-template-areas:
+    "map kpis"
+    "legend .";
+}
+
+.section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 440px);
+}
+
+.section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 440px);
+}
+
+.section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 440px);
+}
+
+.section-map-ce--perfil.section-map-ce--vinculo-sexo-layer .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+}
+
+.section-map-ce--perfil .map-ce-toolbar--map-only .map-ce-layer-row {
+  justify-content: flex-start;
+}
+
+.section-map-ce--perfil .map-ce-main__profile-kpis {
+  display: flex;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.section-map-ce--perfil .map-ce-main__map-view .map-ce-regioes-canvas {
+  height: min(920px, 90vh);
+  min-height: 640px;
+}
+
+.section-map-ce--perfil .map-ce-profile-charts-wrap,
+.section-map-ce--perfil .map-ce-pib-line-wrap,
+.section-map-ce--perfil .map-ce-ceara-cred-line-wrap,
+.section-map-ce--perfil .map-ce-intermediacao-line-wrap {
+  display: none !important;
+}
+
+.section-map-ce--intermediacao .map-ce-intermediacao-line-wrap {
+  display: block !important;
+}
+
+.section-map-ce--ceara-credi .map-ce-profile-charts-wrap--ceara-cred {
+  display: block !important;
+}
+
+.section-map-ce--ceara-credi .map-ce-ceara-cred-line-wrap {
+  display: block !important;
+}
+
+.section-map-ce--ceara-credi .map-ce-kpi-card--ceara-cred {
+  display: flex !important;
+}
+
+.section-map-ce--ceara-credi .map-ce-kpis-bar--profile {
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Visibilidade dos grupos de filtro é controlada via JS (atributo [data-filter-tabs] + [hidden]),
+   garantindo que cada filtro só apareça quando fizer sentido na aba ativa do mapa. */
+.map-ce-filter-group[hidden] {
+  display: none !important;
+}
+
+/* Vai Vem Trabalhador */
+.section-map-ce--vai-vem .map-ce-toolbar--map-only {
+  display: block;
+}
+
+.section-map-ce--vai-vem .map-ce-layer-row__graduated,
+.section-map-ce--vai-vem .map-ce-layer-row__perfil {
+  display: none;
+}
+
+.map-ce-layer-row__vai-vem {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-map-ce--vai-vem .map-ce-layer-row__vai-vem {
+  display: flex;
+}
+
+.section-map-ce--vai-vem .map-ce-main__profile-kpis {
+  display: none !important;
+}
+
+.map-ce-main__vai-vem-kpis {
+  grid-area: kpis;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(165deg, #f0f7ff 0%, #f7fbff 100%);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  min-width: 0;
+  align-self: stretch;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.section-map-ce--vai-vem .map-ce-main__vai-vem-kpis {
+  display: flex;
+}
+
+.section-map-ce--vai-vem .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+}
+
+.section-map-ce--vai-vem .map-ce-main__vai-vem-kpis .map-ce-kpi-card--profile-standard {
+  display: flex !important;
+}
+
+.section-map-ce--vai-vem .map-ce-kpis-bar--profile {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.map-ce-vv-charts-wrap {
+  display: none;
+  margin-top: 18px;
+}
+
+.section-map-ce--vai-vem .map-ce-vv-charts-wrap {
+  display: block;
+}
+
+.section-map-ce--vai-vem .map-ce-profile-charts-wrap,
+.section-map-ce--vai-vem .map-ce-pib-line-wrap,
+.section-map-ce--vai-vem .map-ce-ceara-cred-line-wrap,
+.section-map-ce--vai-vem .map-ce-intermediacao-line-wrap {
+  display: none !important;
+}
+
+/* CAGED por Grande Grupamento */
+.section-map-ce--caged-grupamentos .map-ce-toolbar--map-only {
+  display: block;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-layer-row__graduated,
+.section-map-ce--caged-grupamentos .map-ce-layer-row__perfil,
+.section-map-ce--caged-grupamentos .map-ce-layer-row__vai-vem {
+  display: none;
+}
+
+.map-ce-layer-row__caged-grup {
+  display: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+  width: 100%;
+}
+
+.map-ce-layer-row__caged-grup .map-ce-layer-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.map-ce-layer-row__caged-grup .map-ce-layer-select {
+  width: 100%;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-layer-row__caged-grup {
+  display: flex;
+}
+
+.map-ce-layer-row__overlays {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-toolbar--map-only .map-ce-layer-row {
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 14px;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-layer-row__overlays {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-layer-row__overlays .map-ce-layer-row__toggle-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-layer-row__overlays .map-ce-toggle {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+@media (max-width: 900px) {
+  .map-ce-layer-row__caged-grup,
+  .section-map-ce--caged-grupamentos .map-ce-layer-row__overlays {
+    flex-wrap: wrap;
+  }
+
+  .map-ce-layer-row__caged-grup .map-ce-layer-field,
+  .section-map-ce--caged-grupamentos .map-ce-layer-row__overlays .map-ce-layer-row__toggle-wrap {
+    flex: 1 1 calc(50% - 12px);
+    min-width: 140px;
+  }
+}
+
+.section-map-ce--caged-grupamentos .map-ce-main__profile-kpis,
+.section-map-ce--caged-grupamentos .map-ce-main__vai-vem-kpis,
+.section-map-ce--caged-grupamentos .map-ce-vv-charts-wrap,
+.section-map-ce--caged-grupamentos .map-ce-charts-wrap,
+.section-map-ce--caged-grupamentos .map-ce-rankings-wrap,
+.section-map-ce--caged-grupamentos .map-ce-region-charts-wrap,
+.section-map-ce--caged-grupamentos .map-ce-line-wrap:not(.map-ce-cg-line-wrap) {
+  display: none !important;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 288px);
+  grid-template-areas:
+    "map kpis"
+    "legend .";
+}
+
+.section-map-ce--caged-grupamentos .map-ce-kpis-bar--side .map-ce-kpi-card:has(#mapKpiFormalizacao) {
+  display: none;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-profile-charts-wrap,
+.section-map-ce--caged-grupamentos .map-ce-pib-line-wrap,
+.section-map-ce--caged-grupamentos .map-ce-ceara-cred-line-wrap,
+.section-map-ce--caged-grupamentos .map-ce-intermediacao-line-wrap {
+  display: none !important;
+}
+
+.section-map-ce--caged-grupamentos #cgStatus {
+  display: block;
+  margin: 8px 0 0;
+  font-size: 0.76rem;
+  color: #5c678f;
+}
+
+.map-ce-filters-wrap__status {
+  display: none;
+}
+
+/* Seguro Desemprego */
+.section-map-ce--seguro-desemprego .map-ce-toolbar--map-only {
+  display: block;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-layer-row__graduated,
+.section-map-ce--seguro-desemprego .map-ce-layer-row__perfil,
+.section-map-ce--seguro-desemprego .map-ce-layer-row__vai-vem,
+.section-map-ce--seguro-desemprego .map-ce-layer-row__caged-grup {
+  display: none;
+}
+
+.map-ce-layer-row__seguro-desemprego {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-layer-row__seguro-desemprego {
+  display: flex;
+}
+
+.map-ce-main__seguro-desemprego-kpis {
+  grid-area: kpis;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(165deg, #f5f3ff 0%, #faf5ff 100%);
+  border: 1px solid rgba(109, 40, 217, 0.18);
+  min-width: 0;
+  align-self: stretch;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-main__seguro-desemprego-kpis {
+  display: flex;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 288px);
+  grid-template-areas:
+    "map kpis"
+    "legend .";
+}
+
+.section-map-ce--seguro-desemprego .map-ce-main__profile-kpis,
+.section-map-ce--seguro-desemprego .map-ce-main__vai-vem-kpis,
+.section-map-ce--seguro-desemprego .map-ce-main__kpis,
+.section-map-ce--seguro-desemprego .map-ce-vv-charts-wrap,
+.section-map-ce--seguro-desemprego .map-ce-cg-charts-wrap,
+.section-map-ce--seguro-desemprego .map-ce-charts-wrap,
+.section-map-ce--seguro-desemprego .map-ce-rankings-wrap,
+.section-map-ce--seguro-desemprego .map-ce-region-charts-wrap,
+.section-map-ce--seguro-desemprego .map-ce-line-wrap:not(.map-ce-sd-line-wrap),
+.section-map-ce--seguro-desemprego .map-ce-profile-charts-wrap,
+.section-map-ce--seguro-desemprego .map-ce-pib-line-wrap,
+.section-map-ce--seguro-desemprego .map-ce-ceara-cred-line-wrap,
+.section-map-ce--seguro-desemprego .map-ce-intermediacao-line-wrap {
+  display: none !important;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-main__seguro-desemprego-kpis .map-ce-kpi-card--profile-standard {
+  display: flex !important;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-kpis-bar--profile {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.section-map-ce--seguro-desemprego #sdStatus {
+  display: block;
+  margin: 8px 0 0;
+  font-size: 0.76rem;
+  color: #5c678f;
+}
+
+.map-ce-sd-charts-wrap {
+  display: none;
+  margin-top: 18px;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-sd-charts-wrap {
+  display: flex;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-cg-rankings-wrap {
+  border-color: rgba(79, 70, 229, 0.22);
+}
+
+.section-map-ce--seguro-desemprego .map-ce-sd-line-wrap {
+  display: block !important;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-sd-line-wrap .map-ce-line-block {
+  border: none;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.section-map-ce--seguro-desemprego .map-ce-sd-line-wrap.map-ce-line-wrap {
+  border-color: rgba(79, 70, 229, 0.18);
+  background: linear-gradient(180deg, #fcfdff 0%, #f5f3ff 100%);
+}
+
+.map-ce-line-block__chart--stacked {
+  min-height: 380px;
+}
+
+/* Dinheiro na Mão */
+.section-map-ce--dinheiro-na-mao .map-ce-toolbar--map-only {
+  display: block;
+}
+
+.map-ce-layer-row__dinheiro-na-mao {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-layer-row__dinheiro-na-mao {
+  display: flex;
+}
+
+.map-ce-main__dinheiro-na-mao-kpis {
+  grid-area: kpis;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(165deg, #fffbeb 0%, #fff7ed 100%);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  min-width: 0;
+  align-self: stretch;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-main__dinheiro-na-mao-kpis {
+  display: flex;
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-main {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  grid-template-areas:
+    "map kpis"
+    "legend .";
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-main__profile-kpis,
+.section-map-ce--dinheiro-na-mao .map-ce-main__vai-vem-kpis,
+.section-map-ce--dinheiro-na-mao .map-ce-main__seguro-desemprego-kpis,
+.section-map-ce--dinheiro-na-mao .map-ce-main__kpis,
+.section-map-ce--dinheiro-na-mao .map-ce-vv-charts-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-cg-charts-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-sd-charts-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-charts-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-rankings-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-region-charts-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-line-wrap:not(.map-ce-dnm-line-wrap),
+.section-map-ce--dinheiro-na-mao .map-ce-profile-charts-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-pib-line-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-ceara-cred-line-wrap,
+.section-map-ce--dinheiro-na-mao .map-ce-intermediacao-line-wrap {
+  display: none !important;
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-main__dinheiro-na-mao-kpis .map-ce-kpi-card--profile-standard {
+  display: flex !important;
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-kpis-bar--profile {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.section-map-ce--dinheiro-na-mao #dnmStatus {
+  display: block;
+  margin: 8px 0 0;
+  font-size: 0.76rem;
+  color: #5c678f;
+}
+
+.map-ce-dnm-charts-wrap {
+  display: none;
+  margin-top: 18px;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-dnm-charts-wrap {
+  display: flex;
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-cg-rankings-wrap {
+  border-color: rgba(217, 119, 6, 0.24);
+  background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-dnm-line-wrap {
+  display: block !important;
+  border-color: rgba(217, 119, 6, 0.2);
+  background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
+}
+
+.section-map-ce--dinheiro-na-mao .map-ce-dnm-line-wrap .map-ce-line-block {
+  border: none;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* CAGED Grupamentos — gráficos */
+.map-ce-cg-charts-wrap {
+  display: none;
+  margin-top: 18px;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-cg-charts-wrap {
+  display: flex;
+}
+
+.map-ce-cg-analytics {
+  padding: 16px 18px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 104, 55, 0.2);
+  background: linear-gradient(180deg, #fafbff 0%, #f3f5fb 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.map-ce-cg-analytics__title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #063d22;
+  letter-spacing: -0.02em;
+}
+
+.map-ce-cg-analytics__hint {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #5c678f;
+}
+
+.map-ce-cg-analytics__grid {
+  display: grid;
+  gap: 14px;
+}
+
+.map-ce-cg-analytics__grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.map-ce-cg-chart-panel--analytics .map-ce-cg-chart-panel__hint--show {
+  display: block;
+  margin: 0 0 10px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.map-ce-cg-chart-panel__chart--tall {
+  min-height: 360px;
+}
+
+.map-ce-cg-chart-panel__chart--line {
+  min-height: 360px;
+}
+
+.map-ce-cg-chart-panel--line {
+  width: 100%;
+}
+
+.map-ce-cg-compare-selects {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 14px;
+  margin: 4px 0 14px;
+}
+
+.map-ce-cg-compare-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.map-ce-cg-compare-select {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .map-ce-cg-compare-selects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .map-ce-cg-compare-selects {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-cg-chart-panel__chart--bubble {
+  min-height: 380px;
+}
+
+.map-ce-cg-estagnados-scroll {
+  max-height: 380px;
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(37, 48, 110, 0.12);
+  background: #fff;
+}
+
+.map-ce-cg-estagnados-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.map-ce-cg-estagnados-table th,
+.map-ce-cg-estagnados-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.map-ce-cg-estagnados-table th {
+  position: sticky;
+  top: 0;
+  background: #f1f5f9;
+  color: #1e293b;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.map-ce-cg-estagnados-table td:nth-child(2),
+.map-ce-cg-estagnados-table td:nth-child(3),
+.map-ce-cg-estagnados-table th:nth-child(2),
+.map-ce-cg-estagnados-table th:nth-child(3) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.map-ce-cg-estagnados-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 960px) {
+  .map-ce-cg-analytics__grid--2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-cg-rankings-wrap {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 104, 55, 0.2);
+  background: linear-gradient(180deg, #fafbff 0%, #f3f5fb 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.07);
+}
+
+.map-ce-cg-rankings__head {
+  margin-bottom: 14px;
+}
+
+.map-ce-cg-rankings__title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #063d22;
+  letter-spacing: -0.02em;
+}
+
+.map-ce-cg-rankings__hint {
+  margin: 0 0 12px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #5c678f;
+}
+
+.map-ce-cg-formalizacao-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.map-ce-cg-chart-panel {
+  padding: 12px 12px 8px;
+  border-radius: 14px;
+  border: 1px solid rgba(37, 48, 110, 0.1);
+  background: linear-gradient(165deg, #f8fafc 0%, #f1f5f9 100%);
+  box-shadow: none;
+}
+
+.map-ce-cg-chart-panel__title {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #25306e;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.map-ce-cg-chart-panel__hint {
+  display: none;
+}
+
+.map-ce-cg-chart-panel__chart {
+  min-height: 280px;
+  width: 100%;
+}
+
+.map-ce-cg-line-wrap {
+  display: block !important;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-cg-line-wrap .map-ce-line-block {
+  border-color: rgba(0, 104, 55, 0.2);
+  background: linear-gradient(180deg, #fffdf8 0%, #fff8ef 100%);
+}
+
+.section-map-ce--caged-grupamentos .map-ce-cg-line-wrap--municipio .map-ce-line-block {
+  border-color: rgba(37, 99, 235, 0.18);
+  background: linear-gradient(180deg, #fcfdff 0%, #f0f5ff 100%);
+}
+
+.map-ce-cg-table-wrap {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  background: #fff;
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.06);
+}
+
+.map-ce-cg-table-wrap__title {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0d2148;
+}
+
+.map-ce-cg-table-wrap__hint {
+  margin: 0 0 12px;
+  font-size: 0.74rem;
+  color: #5c678f;
+}
+
+.map-ce-cg-table-scroll {
+  overflow-x: auto;
+}
+
+.map-ce-cg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.map-ce-cg-table th,
+.map-ce-cg-table td {
+  padding: 10px 12px;
+  text-align: right;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.map-ce-cg-table th:first-child,
+.map-ce-cg-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+
+.map-ce-cg-table thead th {
+  background: #f1f5f9;
+  color: #1e3a5f;
+  font-weight: 700;
+}
+
+.map-ce-cg-table tbody tr:last-child td {
+  font-weight: 700;
+  background: #f8fafc;
+}
+
+@media (max-width: 960px) {
+  .map-ce-cg-formalizacao-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-map-ce--vai-vem .map-ce-vv-charts-wrap .map-ce-line-wrap {
+  display: block !important;
+}
+
+.map-ce-vv-bars-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.map-ce-vv-bar-panel {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: linear-gradient(180deg, #fcfdff 0%, #f0f6fc 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.06);
+}
+
+.map-ce-vv-bar-panel__title {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0d2148;
+}
+
+.map-ce-vv-bar-panel__hint {
+  margin: 0 0 12px;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: #5c678f;
+}
+
+.map-ce-vv-bar-panel__chart {
+  min-height: 420px;
+  width: 100%;
+}
+
+.map-ce-vv-bar-panel__chart--regiao {
+  min-height: 320px;
+}
+
+.map-ce-vv-detail-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.map-ce-vv-detail-charts__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.map-ce-vv-bar-panel--detail {
+  padding: 0;
+  overflow: hidden;
+}
+
+.map-ce-vv-bar-panel--detail .map-ce-vv-bar-panel__title {
+  margin: 0;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 100%);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+.map-ce-vv-bar-panel--detail .map-ce-vv-bar-panel__chart {
+  padding: 12px 14px 16px;
+  min-height: 320px;
+  box-sizing: border-box;
+}
+
+.map-ce-vv-bar-panel__chart--donut {
+  min-height: 380px;
+}
+
+.map-ce-vv-bar-panel__chart--scroll {
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+@media (max-width: 960px) {
+  .map-ce-vv-bars-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .map-ce-vv-detail-charts__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-vv-kpi-category {
+  margin: 8px 2px 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #516274;
+}
+
+.map-ce-vv-kpi-category:first-child {
+  margin-top: 0;
+}
+
+.section-map-ce--perfil-empresas .map-ce-kpi-card--profile-standard,
+.section-map-ce--perfil-empresas .map-ce-kpi-card--ceara-cred,
+.section-map-ce--perfil-empresas .map-ce-kpi-card--intermediacao,
+.section-map-ce--perfil-empresas .map-ce-kpi-card--total {
+  display: none !important;
+}
+
+.section-map-ce--perfil.section-map-ce--kpi-standard .map-ce-profile-charts-wrap--standard {
+  display: block !important;
+}
+
+.section-map-ce--intermediacao .map-ce-profile-charts-wrap--standard {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--ceara-cred-layer .map-ce-profile-charts-wrap--ceara-cred {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--mun-simples-layer .map-ce-profile-charts-wrap--mun-simples {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-profile-charts-wrap--empresa-grupamento {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-profile-charts-wrap--empresas-vinculos {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-profile-charts-wrap--vinculo-escolaridade {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--vinculo-sexo-layer .map-ce-profile-charts-wrap--vinculo-sexo {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--pib-layer .map-ce-pib-line-wrap {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--pib-layer .map-ce-profile-charts-wrap--pib {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--ceara-cred-layer .map-ce-ceara-cred-line-wrap {
+  display: block !important;
+}
+
+.section-map-ce--perfil.section-map-ce--profile-years .map-ce-filter-group--mes {
+  display: none;
+}
+
+.section-map-ce--perfil .map-ce-main__profile-kpis-note {
+  display: none;
+}
+
+.section-map-ce--perfil.section-map-ce--kpi-standard .map-ce-main__profile-kpis-note {
+  display: block;
+}
+
+/* KPIs do perfil: sÃ³ o grupo da camada ativa */
+.section-map-ce--perfil .map-ce-kpi-card--pib,
+.section-map-ce--perfil .map-ce-kpi-card--ceara-cred,
+.section-map-ce--perfil .map-ce-kpi-card--mun-simples,
+.section-map-ce--perfil .map-ce-kpi-card--empresa-grupamento,
+.section-map-ce--perfil .map-ce-kpi-card--empresas-vinculos,
+.section-map-ce--perfil .map-ce-kpi-card--vinculo-escolaridade,
+.section-map-ce--perfil .map-ce-kpi-card--vinculo-sexo,
+.section-map-ce--perfil .map-ce-kpi-card--profile-standard {
+  display: none !important;
+}
+
+.section-map-ce--perfil.section-map-ce--pib-layer .map-ce-kpi-card--pib {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--ceara-cred-layer .map-ce-kpi-card--ceara-cred {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--mun-simples-layer .map-ce-kpi-card--mun-simples {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-kpi-card--empresa-grupamento {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-kpi-card--empresas-vinculos {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-kpi-card--vinculo-escolaridade {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--vinculo-sexo-layer .map-ce-kpi-card--vinculo-sexo {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--kpi-standard .map-ce-kpi-card--profile-standard {
+  display: flex !important;
+}
+
+.section-map-ce--perfil.section-map-ce--pib-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--ceara-cred-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--mun-simples-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--vinculo-sexo-layer .map-ce-kpis-bar--profile {
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-kpis-bar--profile,
+.section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-kpis-bar--profile {
+  flex-wrap: nowrap;
+  overflow-x: visible;
+  overflow-y: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  gap: 8px;
+}
+
+.section-map-ce--perfil.section-map-ce--pib-layer .map-ce-kpi-card--pib,
+.section-map-ce--perfil.section-map-ce--ceara-cred-layer .map-ce-kpi-card--ceara-cred,
+.section-map-ce--perfil.section-map-ce--mun-simples-layer .map-ce-kpi-card--mun-simples {
+  flex: 0 0 auto;
+  min-height: 52px;
+}
+
+.section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-kpi-card--empresa-grupamento,
+.section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-kpi-card--empresas-vinculos,
+.section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-kpi-card--vinculo-escolaridade {
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  min-height: 74px;
+  padding: 14px 18px;
+  gap: 14px;
+  align-items: center;
+}
+
+.section-map-ce--perfil.section-map-ce--vinculo-sexo-layer .map-ce-kpi-card--vinculo-sexo {
+  flex: 0 0 auto;
+  min-height: 60px;
+}
+
+/* â”€â”€ Modo IntermediaÃ§Ã£o â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Baseado no Perfil Municipal. Oculta KPI cards do perfil-padrÃ£o (BF, BPCâ€¦)
+   e das demais camadas especiais. Exibe apenas o card do indicador ativo
+   via data-int-layer no elemento raiz (atribuÃ­do por ceSyncProfileLayerUi).
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.section-map-ce--intermediacao .map-ce-kpi-card--pib,
+.section-map-ce--intermediacao .map-ce-kpi-card--ceara-cred,
+.section-map-ce--intermediacao .map-ce-kpi-card--mun-simples,
+.section-map-ce--intermediacao .map-ce-kpi-card--empresa-grupamento,
+.section-map-ce--intermediacao .map-ce-kpi-card--empresas-vinculos,
+.section-map-ce--intermediacao .map-ce-kpi-card--vinculo-escolaridade,
+.section-map-ce--intermediacao .map-ce-kpi-card--vinculo-sexo,
+.section-map-ce--intermediacao .map-ce-kpi-card--total {
+  display: none !important;
+}
+
+.section-map-ce--ceara-credi .map-ce-kpi-card--pib,
+.section-map-ce--ceara-credi .map-ce-kpi-card--mun-simples,
+.section-map-ce--ceara-credi .map-ce-kpi-card--empresa-grupamento,
+.section-map-ce--ceara-credi .map-ce-kpi-card--empresas-vinculos,
+.section-map-ce--ceara-credi .map-ce-kpi-card--vinculo-escolaridade,
+.section-map-ce--ceara-credi .map-ce-kpi-card--vinculo-sexo,
+.section-map-ce--ceara-credi .map-ce-kpi-card--profile-standard,
+.section-map-ce--ceara-credi .map-ce-kpi-card--intermediacao,
+.section-map-ce--ceara-credi .map-ce-kpi-card--total {
+  display: none !important;
+}
+
+/* Cards de intermediaÃ§Ã£o ocultos em qualquer modo exceto intermediaÃ§Ã£o */
+.section-map-ce--perfil:not(.section-map-ce--intermediacao) .map-ce-kpi-card--intermediacao {
+  display: none;
+}
+
+/* No modo intermediaÃ§Ã£o, todos os 10 KPI cards ficam visÃ­veis simultaneamente */
+.section-map-ce--intermediacao .map-ce-kpi-card--intermediacao {
+  display: flex !important;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--ceara-cred {
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: rgba(5, 150, 105, 0.28);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--ceara-cred .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--ceara-cred .map-ce-kpi-card__value {
+  color: #065f46;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--ceara-cred .map-ce-kpi-card__icon {
+  background: rgba(5, 150, 105, 0.14);
+  border-color: rgba(5, 150, 105, 0.24);
+  color: #047857;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--mun-simples {
+  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+  border-color: rgba(124, 58, 237, 0.28);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--mun-simples .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--mun-simples .map-ce-kpi-card__value {
+  color: #5b21b6;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--mun-simples .map-ce-kpi-card__icon {
+  background: rgba(124, 58, 237, 0.14);
+  border-color: rgba(124, 58, 237, 0.24);
+  color: #6d28d9;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  border-color: rgba(249, 115, 22, 0.28);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__value {
+  color: #9a3412;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__icon {
+  background: rgba(249, 115, 22, 0.14);
+  border-color: rgba(249, 115, 22, 0.24);
+  color: #c2410c;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__label {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__value {
+  font-size: 1.38rem;
+  font-weight: 800;
+  line-height: 1.05;
+  word-break: normal;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__icon {
+  width: 50px;
+  height: 50px;
+  font-size: 1.22rem;
+  border-radius: 13px;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__body {
+  flex: 1;
+  min-width: 0;
+  gap: 5px;
+  justify-content: center;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento .map-ce-kpi-card__metrics {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  line-height: 1;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresa-grupamento-total {
+  border-color: rgba(194, 65, 12, 0.45);
+}
+
+.map-ce-profile-charts-wrap--empresa-grupamento .map-ce-profile-charts {
+  border-color: rgba(249, 115, 22, 0.22);
+  background: linear-gradient(180deg, #fff7ed 0%, #fffbeb 100%);
+}
+
+.map-ce-profile-charts-wrap--empresa-grupamento .map-ce-profile-charts__chart--pie,
+.map-ce-profile-charts-wrap--empresas-vinculos .map-ce-profile-charts__chart--pie,
+.map-ce-profile-charts-wrap--vinculo-escolaridade .map-ce-profile-charts__chart--pie,
+.map-ce-profile-charts-wrap--vinculo-sexo .map-ce-profile-charts__chart--pie {
+  min-height: 380px;
+}
+
+.map-ce-profile-charts-wrap--empresa-grupamento .map-ce-profile-charts__panel--empresa-regiao-barras,
+.map-ce-profile-charts-wrap--empresas-vinculos .map-ce-profile-charts__panel--empresas-vinculos-regiao-barras,
+.map-ce-profile-charts-wrap--vinculo-escolaridade .map-ce-profile-charts__panel--vinculo-escolaridade-regiao-barras {
+  margin-top: 14px;
+}
+
+.map-ce-profile-charts-wrap--empresa-grupamento .map-ce-profile-charts__panel--empresa-regiao-barras .map-ce-profile-charts__chart,
+.map-ce-profile-charts-wrap--empresas-vinculos .map-ce-profile-charts__panel--empresas-vinculos-regiao-barras .map-ce-profile-charts__chart,
+.map-ce-profile-charts-wrap--vinculo-escolaridade .map-ce-profile-charts__panel--vinculo-escolaridade-regiao-barras .map-ce-profile-charts__chart {
+  min-height: 360px;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos {
+  background: linear-gradient(180deg, #ecfeff 0%, #cffafe 100%);
+  border-color: rgba(6, 182, 212, 0.28);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__value {
+  color: #0e7490;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__icon {
+  background: rgba(6, 182, 212, 0.14);
+  border-color: rgba(6, 182, 212, 0.24);
+  color: #0891b2;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__label {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__value {
+  font-size: 1.38rem;
+  font-weight: 800;
+  line-height: 1.05;
+  word-break: normal;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__icon {
+  width: 50px;
+  height: 50px;
+  font-size: 1.22rem;
+  border-radius: 13px;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__body {
+  flex: 1;
+  min-width: 0;
+  gap: 5px;
+  justify-content: center;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos .map-ce-kpi-card__metrics {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  line-height: 1;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--empresas-vinculos-total {
+  border-color: rgba(8, 145, 178, 0.45);
+}
+
+.map-ce-profile-charts-wrap--empresas-vinculos .map-ce-profile-charts {
+  border-color: rgba(6, 182, 212, 0.22);
+  background: linear-gradient(180deg, #ecfeff 0%, #f0fdfa 100%);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade {
+  background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
+  border-color: rgba(99, 102, 241, 0.28);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__value {
+  color: #3730a3;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__icon {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.24);
+  color: #4f46e5;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__label {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__value {
+  font-size: 1.38rem;
+  font-weight: 800;
+  line-height: 1.05;
+  word-break: normal;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__icon {
+  width: 50px;
+  height: 50px;
+  font-size: 1.22rem;
+  border-radius: 13px;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__body {
+  flex: 1;
+  min-width: 0;
+  gap: 5px;
+  justify-content: center;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade .map-ce-kpi-card__metrics {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  line-height: 1;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-escolaridade-total {
+  border-color: rgba(67, 56, 202, 0.45);
+}
+
+.map-ce-profile-charts-wrap--vinculo-escolaridade .map-ce-profile-charts {
+  border-color: rgba(79, 70, 229, 0.24);
+  background: linear-gradient(180deg, #eef2ff 0%, #f5f3ff 100%);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-sexo {
+  background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+  border-color: rgba(219, 39, 119, 0.28);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-sexo .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-sexo .map-ce-kpi-card__value {
+  color: #9d174d;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-sexo .map-ce-kpi-card__icon {
+  background: rgba(219, 39, 119, 0.14);
+  border-color: rgba(219, 39, 119, 0.24);
+  color: #be185d;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--vinculo-sexo-total {
+  border-color: rgba(157, 23, 77, 0.45);
+}
+
+.map-ce-profile-charts-wrap--vinculo-sexo .map-ce-profile-charts {
+  border-color: rgba(219, 39, 119, 0.24);
+  background: linear-gradient(180deg, #fdf2f8 0%, #fef7fb 100%);
+}
+
+.map-ce-profile-charts-wrap--pib .map-ce-profile-charts {
+  border-color: rgba(230, 85, 13, 0.24);
+  background: linear-gradient(180deg, #fffaf5 0%, #fff4eb 100%);
+}
+
+.map-ce-profile-charts-wrap--pib .map-ce-profile-charts__sort-btn {
+  border-color: rgba(230, 85, 13, 0.35);
+  color: #9a3412;
+  background: #fff7ed;
+}
+
+.map-ce-profile-charts-wrap--pib .map-ce-profile-charts__sort-btn:hover {
+  background: #ffedd5;
+  border-color: rgba(230, 85, 13, 0.5);
+}
+
+.map-ce-pib-line-wrap,
+.map-ce-ceara-cred-line-wrap,
+.map-ce-profile-charts-wrap {
+  display: none;
+}
+
+.map-ce-pib-line-wrap {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(230, 85, 13, 0.22);
+  background: linear-gradient(180deg, #fffaf5 0%, #fff4eb 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.06);
+  margin-top: 18px;
+}
+
+.map-ce-ceara-cred-line-wrap {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(5, 150, 105, 0.24);
+  background: linear-gradient(180deg, #f0fdf9 0%, #ecfdf5 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.06);
+  margin-top: 18px;
+}
+
+.map-ce-ceara-cred-line-wrap .map-ce-line-block__title {
+  color: #065f46;
+}
+
+.map-ce-ceara-line-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+.map-ce-ceara-line-filters__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.map-ce-ceara-line-filters__label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #047857;
+}
+
+.map-ce-ceara-line-filters__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.map-ce-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(5, 150, 105, 0.28);
+  background: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #065f46;
+  cursor: pointer;
+  user-select: none;
+}
+
+.map-ce-chip:has(input:checked) {
+  background: #d1fae5;
+  border-color: #059669;
+}
+
+.map-ce-chip input {
+  accent-color: #059669;
+  margin: 0;
+}
+
+.map-ce-ceara-line-empty {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.map-ce-filters-wrap {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 104, 55, 0.22);
+  background: linear-gradient(180deg, #f8fdfb 0%, #f1faf5 100%);
+  box-shadow: 0 2px 12px rgba(13, 21, 72, 0.06);
+}
+
+.map-ce-filters-wrap__title {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #063d22;
+  letter-spacing: 0.02em;
+}
+
+.sec.sec-map {
+  border: 2px solid #00a859;
+  box-shadow: 8px 10px 0 #00994d;
+  padding: 12px;
+  overflow: visible;
+}
+
+.map-ce-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.map-ce-toolbar--map-only {
+  margin-bottom: 10px;
+}
+
+.map-ce-toolbar--map-only .map-ce-layer-row {
+  margin-bottom: 0;
+  padding-bottom: 10px;
+}
+
+.map-ce-layer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(0, 104, 55, 0.25);
+}
+
+.map-ce-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 288px);
+  grid-template-areas:
+    "map kpis"
+    "legend .";
+  gap: 10px 16px;
+  align-items: start;
+}
+
+.map-ce-main__map-view {
+  grid-area: map;
+  min-width: 0;
+  align-self: start;
+}
+
+.map-ce-main__profile-kpis {
+  grid-area: kpis;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(165deg, #f0f7ff 0%, #f7fbff 100%);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.map-ce-main__profile-kpis-note {
+  margin: 2px 2px 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: #516274;
+}
+
+.map-ce-profile-charts-wrap {
+  display: none;
+}
+
+.map-ce-profile-charts {
+  padding: 14px 16px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: linear-gradient(180deg, #f8fbff 0%, #eff6ff 100%);
+  box-shadow: 0 2px 12px rgba(13, 21, 72, 0.06);
+}
+
+.map-ce-profile-charts-wrap--ceara-cred .map-ce-profile-charts {
+  border-color: rgba(5, 150, 105, 0.22);
+  background: linear-gradient(180deg, #ecfdf5 0%, #f0fdf4 100%);
+}
+
+.map-ce-profile-charts-wrap--mun-simples .map-ce-profile-charts {
+  border-color: rgba(124, 58, 237, 0.22);
+  background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+}
+
+.map-ce-profile-charts__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0f2f74;
+}
+
+.map-ce-profile-charts__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.map-ce-profile-charts__intro {
+  min-width: 0;
+}
+
+.map-ce-profile-charts__hint {
+  margin: 8px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #475569;
+}
+
+.map-ce-profile-charts__sort-btn {
+  flex-shrink: 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  background: rgba(37, 99, 235, 0.08);
+  color: #0f2f74;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.map-ce-profile-charts__sort-btn:hover {
+  background: rgba(37, 99, 235, 0.14);
+  border-color: rgba(37, 99, 235, 0.32);
+}
+
+.map-ce-profile-charts__sort-btn:active {
+  transform: translateY(1px);
+}
+
+.map-ce-profile-charts__grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.map-ce-profile-charts__panel {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.map-ce-profile-charts__panel-title {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0f2f74;
+}
+
+.map-ce-profile-charts__chart {
+  min-height: 320px;
+}
+
+.map-ce-main__kpis {
+  grid-area: kpis;
+  align-self: stretch;
+  min-width: 0;
+  padding: 14px 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(165deg, #f0fdf6 0%, #e8faf0 100%);
+  border: 1px solid rgba(0, 168, 89, 0.35);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.map-ce-main__legend {
+  grid-area: legend;
+}
+
+.map-ce-main__kpis-title {
+  margin: 0 0 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #063d22;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.map-ce-main__kpis-title-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.map-ce-main__kpis-title-inner .fa-solid {
+  font-size: 1rem;
+  color: #00a859;
+  opacity: 0.95;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--side {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  justify-content: space-between;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card {
+  flex: 1 1 0;
+  min-height: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(0, 168, 89, 0.12);
+  border: 1px solid rgba(0, 168, 89, 0.22);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #00a859;
+  font-size: 1.12rem;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  justify-content: space-between;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card__metrics {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card__icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  font-size: 1.12rem;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--pib {
+  flex: 0 0 auto;
+  background: linear-gradient(180deg, #fff5eb 0%, #ffedd5 100%);
+  border-color: rgba(230, 85, 13, 0.32);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--pib .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--pib .map-ce-kpi-card__value {
+  color: #9a3412;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--pib .map-ce-kpi-card__icon {
+  background: rgba(230, 85, 13, 0.14);
+  border-color: rgba(230, 85, 13, 0.28);
+  color: #c2410c;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--pib .map-ce-kpi-card__meta {
+  background: rgba(154, 52, 18, 0.12);
+  border-color: rgba(154, 52, 18, 0.16);
+  color: #9a3412;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--total {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  border-color: rgba(217, 119, 6, 0.28);
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--total .map-ce-kpi-card__label,
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--total .map-ce-kpi-card__value {
+  color: #9a3412;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--total .map-ce-kpi-card__icon {
+  background: rgba(217, 119, 6, 0.14);
+  border-color: rgba(217, 119, 6, 0.24);
+  color: #c2410c;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card--total .map-ce-kpi-card__meta {
+  background: rgba(154, 52, 18, 0.12);
+  border-color: rgba(154, 52, 18, 0.16);
+  color: #9a3412;
+}
+
+@media (max-width: 960px) {
+  .map-ce-main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "kpis"
+      "map"
+      "legend";
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 140px;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--profile {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .section-map-ce--perfil .map-ce-main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "kpis"
+      "map"
+      "legend";
+  }
+
+  .section-map-ce--vai-vem .map-ce-main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "kpis"
+      "map"
+      "legend";
+  }
+
+  .section-map-ce--vai-vem .map-ce-kpis-bar--profile {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .section-map-ce--vai-vem .map-ce-kpis-bar--profile .map-ce-kpi-card {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 140px;
+  }
+
+  .section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-kpi-card--empresa-grupamento,
+  .section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-kpi-card--empresas-vinculos,
+  .section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-kpi-card--vinculo-escolaridade {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .map-ce-profile-charts__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .map-ce-profile-charts__head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .map-ce-profile-charts__sort-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .map-ce-kpis-bar.map-ce-kpis-bar--side {
+    flex-direction: column;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--profile {
+    flex-direction: column;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.map-ce-toolbar__filters {
+  display: grid;
+  gap: 14px 18px;
+  align-items: stretch;
+}
+
+.map-ce-toolbar__filters--standalone {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1100px) {
+  .map-ce-toolbar__filters--standalone {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-layer-row__graduated {
+  flex: 1;
+  min-width: min(100%, 240px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.map-ce-layer-row__perfil {
+  flex: 1;
+  min-width: min(100%, 240px);
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.map-ce-layer-row__toggle-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.map-ce-filter-label--toggle {
+  margin: 0;
+}
+
+.map-ce-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 8px 10px;
+  border: 2px solid rgba(0, 104, 55, 0.35);
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0d1548;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.map-ce-toggle:hover {
+  border-color: #00a859;
+  background: #f6fffa;
+}
+
+.map-ce-toggle[aria-pressed="true"] {
+  border-color: #00a859;
+  background: linear-gradient(180deg, #e8faf0 0%, #dff5ea 100%);
+}
+
+.map-ce-toggle__track {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.map-ce-toggle[aria-pressed="true"] .map-ce-toggle__track {
+  background: #00a859;
+}
+
+.map-ce-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.map-ce-toggle[aria-pressed="true"] .map-ce-toggle__thumb {
+  transform: translateX(18px);
+}
+
+.map-ce-toggle__text {
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .map-ce-toggle__text {
+    white-space: normal;
+    max-width: 11rem;
+    text-align: left;
+    line-height: 1.25;
+  }
+}
+
+.map-ce-legend__overlay {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(0, 104, 55, 0.28);
+}
+
+.map-ce-legend__overlay-title {
+  display: block;
+  font-weight: 700;
+  color: #25306e;
+  font-size: 0.78rem;
+  margin-bottom: 8px;
+}
+
+.map-ce-legend__overlay .map-ce-legend__items {
+  margin-top: 6px;
+}
+
+.map-ce-layer-select {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0d1548;
+  border: 1px solid rgba(0, 104, 55, 0.35);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.map-ce-layer-select:focus {
+  outline: none;
+  border-color: #00a859;
+  box-shadow: 0 0 0 3px rgba(0, 168, 89, 0.2);
+}
+
+.map-ce-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.map-ce-filter-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0d1548;
+}
+
+.map-ce-filter-hint {
+  font-weight: 500;
+  color: #6b7699;
+  font-size: 0.72rem;
+}
+
+.map-ce-select-multi {
+  width: 100%;
+  min-height: 110px;
+  padding: 8px 10px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(0, 104, 55, 0.35);
+  border-radius: 12px;
+  background: #fbfffc;
+  color: #1a2744;
+  box-sizing: border-box;
+}
+
+.map-ce-select-multi:focus {
+  outline: none;
+  border-color: #00a859;
+  box-shadow: 0 0 0 3px rgba(0, 168, 89, 0.2);
+}
+
+.map-ce-filter-search {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  border: 1px solid rgba(0, 104, 55, 0.28);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.map-ce-filter-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 6px 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #0d3d26;
+  background: #e8f8ef;
+  border: 1px solid #00a859;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.map-ce-filter-btn:hover {
+  background: #d4f0e3;
+}
+
+.map-ce-kpis-bar {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 720px) {
+  .map-ce-kpis-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.map-ce-kpi-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f4fbf7 100%);
+  border: 1px solid rgba(0, 168, 89, 0.28);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.map-ce-kpi-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #4a6b5c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.map-ce-kpi-card__value {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 800;
+  color: #063d22;
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
+}
+
+.map-ce-kpi-card__meta {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #4b6470;
+  line-height: 1.25;
+}
+
+.map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card__meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 47, 116, 0.12);
+  border: 1px solid rgba(15, 47, 116, 0.16);
+  color: #0f2f74;
+  white-space: nowrap;
+}
+
+.map-ce-regioes-canvas {
+  width: 100%;
+  height: min(546px, 71vh);
+  min-height: 364px;
+  border-radius: 16px;
+  background: #e8f5ef;
+}
+
+.map-ce-main__map-view .map-ce-regioes-canvas {
+  /* Altura fixa do mapa; KPIs alinham sÃ³ a esta linha (legenda fica na linha seguinte) */
+  height: min(676px, 81vh);
+  min-height: 416px;
+}
+
+.map-ce-main__map-view .maplibregl-popup-content {
+  padding: 0;
+  border-radius: 14px;
+  border: none;
+  box-shadow: 0 10px 22px rgba(8, 38, 133, 0.24);
+}
+
+.map-ce-main__map-view .maplibregl-popup-close-button {
+  top: 4px;
+  right: 6px;
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  line-height: 26px;
+  font-weight: 800;
+  color: #0d1548;
+  background: #ffffff;
+  border: 2px solid rgba(13, 21, 72, 0.2);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.96;
+}
+
+.map-ce-main__map-view .maplibregl-popup-close-button:hover {
+  background: #eef2ff;
+  border-color: #4f46e5;
+  color: #1e1b4b;
+}
+
+.map-ce-main__map-view .maplibregl-popup-tip {
+  border-top-color: #1d4ed8;
+}
+
+.map-ce-popup {
+  --map-popup-accent: #1d4ed8;
+  --map-popup-bg-start: #ffffff;
+  --map-popup-bg-end: #f6f9ff;
+  --map-popup-title: #0a2ca6;
+  --map-popup-label: #4c5b92;
+  --map-popup-value: #14245e;
+  min-width: 245px;
+  max-width: 320px;
+  background: linear-gradient(180deg, var(--map-popup-bg-start) 0%, var(--map-popup-bg-end) 100%);
+  color: #0d1548;
+  padding: 10px 12px;
+  border: 4px solid var(--map-popup-accent);
+  border-radius: 14px;
+}
+
+.map-ce-popup__head {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(31, 45, 120, 0.14);
+}
+
+.map-ce-popup__title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--map-popup-title);
+  line-height: 1.28;
+}
+
+.map-ce-popup__grid {
+  display: grid;
+  gap: 10px;
+}
+
+.map-ce-popup__row {
+  display: grid;
+  gap: 3px;
+}
+
+.map-ce-popup__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--map-popup-label);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.map-ce-popup__icon {
+  width: 1.05rem;
+  color: var(--map-popup-accent);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.map-ce-popup__icon--label {
+  color: var(--map-popup-accent);
+  width: 0.95rem;
+}
+
+.map-ce-popup__value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--map-popup-value);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.map-ce-popup__value--metric {
+  color: var(--map-popup-accent);
+}
+
+.ce-sede-label {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #000;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  text-shadow:
+    -1px -1px 0 #fff,
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff,
+     0    0   3px #fff;
+  margin-top: 3px;
+  line-height: 1;
+}
+
+.map-ce-layer-row__toggle-wrap--analise-leste {
+  display: none;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-layer-row__toggle-wrap--analise-leste {
+  display: flex;
+}
+
+.section-map-ce--caged-grupamentos .map-ce-layer-row__toggle-wrap--hide-analise-leste {
+  display: none !important;
+}
+
+.ce-salario-label {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #14532d;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(22, 163, 74, 0.45);
+  border-radius: 4px;
+  padding: 1px 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.map-ce-regioes-foot {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #5c678f;
+}
+
+.map-ce-regioes-foot code {
+  font-size: 0.78em;
+  background: rgba(0, 168, 89, 0.12);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.map-ce-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #4a578f;
+}
+
+.map-ce-main > .map-ce-legend {
+  margin-top: 0;
+}
+
+.map-ce-legend__title {
+  font-weight: 700;
+  color: #25306e;
+  font-size: 0.82rem;
+}
+
+.map-ce-legend__range {
+  font-size: 0.74rem;
+  color: #6b7699;
+}
+
+.map-ce-legend__items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 14px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .map-ce-legend__items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .map-ce-legend__items {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-legend__item {
+  display: block;
+  min-width: 0;
+}
+
+.map-ce-legend__item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: none;
+}
+
+.map-ce-legend__item-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.map-ce-legend__item-line--legend {
+  color: #25306e;
+}
+
+.map-ce-legend__item-line--detail {
+  color: #66749d;
+}
+
+.map-ce-legend__detail {
+  display: block;
+}
+
+.map-ce-legend__item-count {
+  font-size: 0.73rem;
+  color: #4f5d8c;
+  cursor: pointer;
+  user-select: none;
+}
+
+.map-ce-legend__detail[open] .map-ce-legend__item-count {
+  color: #25306e;
+  font-weight: 600;
+}
+
+.map-ce-legend__item-names {
+  font-size: 0.72rem;
+  color: #66749d;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
+.map-ce-legend__item--muted {
+  color: #6b7699;
+}
+
+/* â”€â”€ Filtro interativo por classe de legenda â”€â”€ */
+.map-ce-legend__item--clickable {
+  cursor: pointer;
+  border-radius: 6px;
+  transition: opacity 0.18s, outline 0.18s;
+  outline: 2px solid transparent;
+}
+.map-ce-legend__item--clickable:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.map-ce-legend__item--active {
+  outline: 2px solid #2563eb;
+  background: rgba(37, 99, 235, 0.07);
+  font-weight: 600;
+}
+.map-ce-legend__item--dimmed {
+  opacity: 0.35;
+}
+.map-ce-legend__filter-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: #6b7699;
+  margin: 2px 0 4px;
+  font-style: italic;
+}
+
+.map-ce-legend__swatch {
+  flex-shrink: 0;
+  width: 22px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.map-ce-legend__empty {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6b7699;
+}
+
+.map-ce-rankings-wrap {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(37, 48, 110, 0.2);
+  background: linear-gradient(180deg, #fafbff 0%, #f3f5fb 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.07);
+}
+
+.map-ce-rankings {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.map-ce-rankings__head {
+  margin-bottom: 14px;
+}
+
+.map-ce-rankings__title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #063d22;
+  letter-spacing: -0.02em;
+}
+
+.map-ce-rankings__hint {
+  margin: 0 0 12px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #5c678f;
+}
+
+.map-ce-rankings__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.map-ce-rankings__select {
+  min-width: 160px;
+}
+
+.map-ce-rankings__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .map-ce-rankings__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-rank-panel {
+  background: linear-gradient(165deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid rgba(37, 48, 110, 0.1);
+  border-radius: 14px;
+  padding: 12px 12px 8px;
+  box-sizing: border-box;
+}
+
+.map-ce-rank-panel__title {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #25306e;
+}
+
+.map-ce-rank-panel__chart {
+  min-height: 200px;
+  width: 100%;
+  overflow: visible;
+}
+
+.map-ce-rank-panel--formalizacao .map-ce-rank-panel__title {
+  margin-bottom: 10px;
+}
+
+.map-ce-rank-panel--formalizacao {
+  grid-column: 1 / -1;
+}
+
+.map-ce-rank-formalizacao__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px 18px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .map-ce-rank-formalizacao__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-rank-formalizacao__subtitle {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #4a6b5c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.map-ce-region-charts-wrap {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 104, 55, 0.22);
+  background: linear-gradient(180deg, #fbfff9 0%, #f0faf4 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.06);
+}
+
+.map-ce-region-charts__title {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #063d22;
+  letter-spacing: -0.02em;
+}
+
+.map-ce-region-charts__hint {
+  margin: 0 0 16px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #5c678f;
+}
+
+.map-ce-region-charts__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .map-ce-region-charts__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-ce-region-charts__panel {
+  background: linear-gradient(165deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(37, 48, 110, 0.12);
+  border-radius: 14px;
+  padding: 12px 12px 8px;
+  min-width: 0;
+}
+
+.map-ce-region-charts__panel-title {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #25306e;
+}
+
+.map-ce-region-charts__chart {
+  min-height: 280px;
+  width: 100%;
+  overflow: visible;
+}
+
+.map-ce-line-wrap {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(33, 113, 181, 0.22);
+  background: linear-gradient(180deg, #fcfdff 0%, #f0f6fc 100%);
+  box-shadow: 0 2px 14px rgba(13, 21, 72, 0.06);
+}
+
+.map-ce-line-wrap--stacked {
+  margin-top: 18px;
+}
+
+.map-ce-line-block__title {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0d2148;
+  letter-spacing: -0.02em;
+}
+
+.map-ce-line-block__hint {
+  margin: 0 0 14px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #5c678f;
+}
+
+.map-ce-line-block__chart {
+  min-height: 420px;
+  width: 100%;
+  overflow: visible;
+}
+
+@media (max-width: 960px) {
+  .section-map-ce--dinheiro-na-mao .map-ce-main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "kpis"
+      "map"
+      "legend";
+  }
+
+  .section-map-ce--dinheiro-na-mao .map-ce-kpis-bar--profile {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
