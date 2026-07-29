@@ -1,0 +1,2013 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SET Análise Região Leste — mapa, KPIs, rankings e camadas de emprego formal por grupamento.">
+  <title>SET Análise Região Leste</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/map.css">
+  <link rel="stylesheet" href="/static/css/redesign.css">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.1/dist/maplibre-gl.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body class="app-redesign">
+  <div id="menuOverlay" class="menu-overlay"></div>
+  <header class="rd-navbar" role="banner">
+    <div class="rd-navbar-inner">
+      <div class="rd-brand">
+        <div class="rd-brand-logos" aria-label="Logomarcas institucionais">
+          <img src="/static/assets/logo_set.png" alt="Secretaria do Trabalho do Estado do Ceará">
+          <img src="/static/assets/logo_idt.png" alt="Instituto de Desenvolvimento do Trabalho">
+        </div>
+        <div class="rd-brand-text">
+          <div class="l1">Secretaria do Trabalho · IDT</div>
+          <div class="l2">Mercado de Trabalho Formal</div>
+        </div>
+      </div>
+      <nav id="menuAbas" class="rd-tabs" aria-label="Navegação principal"></nav>
+      <div class="rd-navbar-actions">
+        <button type="button" class="rd-btn-primary" id="rdGoAnalise" data-aba="analise_leste">
+          <i class="fa-solid fa-map" aria-hidden="true"></i>
+          Ir para o mapa
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-layout">
+    <aside class="sidebar" id="sidebar" hidden aria-hidden="true">
+      <div class="sidebar-header">
+        <div>
+          <h1>Análise Região Leste</h1>
+          <p>Mercado de trabalho formal · SET / IDT</p>
+        </div>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Fechar menu lateral">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </aside>
+    <button type="button" class="menu-edge-open" id="menuEdgeOpen" aria-label="Abrir menu lateral" hidden>
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <section class="content">
+      <div class="page-intro" hidden>
+        <header class="header page-ident">
+          <div class="page-ident__main">
+            <span class="page-ident__icon" aria-hidden="true">
+              <i id="pageIdentIcon" class="fa-solid fa-map-location-dot"></i>
+            </span>
+            <div class="page-ident__text">
+              <h2 id="tituloPagina">Dados CAGED</h2>
+              <p id="descricaoPagina">Carregando mapa...</p>
+            </div>
+          </div>
+        </header>
+        <p class="page-status-line pill pill--page-meta" id="statusPagina" role="status">Inicializando</p>
+      </div>
+
+      <section id="secaoSobre" class="rd-sobre" aria-labelledby="sobreTitulo">
+        <div class="rd-sobre-hero">
+          <span class="rd-sobre-kicker">
+            <i class="fa-solid fa-hotel" aria-hidden="true"></i>
+            SET / IDT · Recorte setorial
+          </span>
+          <h1 id="sobreTitulo">Emprego formal no setor hoteleiro da Região Leste</h1>
+          <p class="lead">
+            Esta página reúne indicadores do mercado de trabalho formal ligados a
+            <strong>Alojamento e alimentação</strong> nos municípios da
+            <strong>Região Leste</strong> do Ceará — com ênfase no turismo de sol e praia,
+            na rede hoteleira e nos serviços de alimentação que sustentam a atividade econômica local.
+          </p>
+        </div>
+
+        <div class="rd-sobre-grid">
+          <article class="rd-card">
+            <h2>O que esta análise mostra</h2>
+            <p>
+              A partir de dados do CAGED (movimentação e estoque de vínculos formais), o painel
+              acompanha admitidos, desligados, saldo e estoque mensal do grupamento
+              <strong>Alojamento e alimentação</strong>, com desdobramentos de
+              <strong>Alojamento</strong> e <strong>Alimentação</strong>.
+            </p>
+            <ul>
+              <li>Mapa classificado por município (estoque, saldo, admissões ou desligamentos)</li>
+              <li>KPIs e rankings por município e região administrativa</li>
+              <li>Métricas de rotatividade, peso do estoque setorial e estagnação no mês</li>
+            </ul>
+          </article>
+
+          <article class="rd-card">
+            <h2>Por que a Região Leste</h2>
+            <p>
+              O Litoral Leste e a Grande Fortaleza concentram parte relevante da oferta
+              hoteleira e de serviços de alimentação do estado. Monitorar o emprego formal
+              nesse recorte ajuda a SET e o IDT a acompanhar a dinâmica do turismo,
+              sazonalidade e pressão sobre a mão de obra local.
+            </p>
+            <ul>
+              <li>Recorte padrão: Grande Fortaleza e Litoral Leste</li>
+              <li>Filtros por ano, mês de referência, região e município</li>
+              <li>Comparativo entre Alojamento e Alimentação</li>
+            </ul>
+          </article>
+
+          <article class="rd-card">
+            <h2>Como usar o painel</h2>
+            <p>
+              Na aba <strong>Análise</strong>, combine filtros de período e território,
+              escolha o indicador do mapa e explore os gráficos abaixo. O mapa mantém
+              sobreposições opcionais (regiões, sedes, unidades do IDT) e a legenda por classes.
+            </p>
+            <ul>
+              <li>Indicador padrão do mapa: Estoque mensal</li>
+              <li>Fonte: planilha SET Análise Região Leste (CAGED)</li>
+              <li>Atualização conforme a publicação da referência mensal</li>
+            </ul>
+          </article>
+
+          <article class="rd-card rd-card--accent">
+            <h2>Começar pela análise</h2>
+            <p>
+              Abra o mapa interativo com KPIs, rankings e métricas do setor
+              Alojamento e alimentação na Região Leste.
+            </p>
+            <button type="button" class="rd-btn-primary" data-aba="analise_leste">
+              <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+              Abrir Análise Região Leste
+            </button>
+          </article>
+        </div>
+
+        <div class="rd-meta-row" aria-label="Metadados">
+          <span class="rd-meta-pill">Fonte: <b>CAGED</b></span>
+          <span class="rd-meta-pill">Setor: <b>Alojamento e alimentação</b></span>
+          <span class="rd-meta-pill">Território: <b>Região Leste · CE</b></span>
+          <span class="rd-meta-pill">Órgãos: <b>SET · IDT</b></span>
+        </div>
+      </section>
+
+      <div id="secaoMapaCe" class="section-map-ce" hidden>
+        <div class="rd-hero-row" id="resumo">
+          <div>
+            <h1>Análise Região Leste</h1>
+            <p>
+              Mercado de trabalho formal por município: admitidos, desligados, saldo e estoque mensal
+              por grande grupamento e desdobramento (Alojamento e alimentação).
+            </p>
+          </div>
+          <div class="rd-source-tag">Fonte: CAGED · Mês de referência: <span id="rdRefMesAnoHero">—</span></div>
+        </div>
+        <div class="map-ce-filters-wrap">
+          <p class="map-ce-filters-wrap__title">Filtros dos dados (CAGED)</p>
+          <div class="map-ce-toolbar__filters map-ce-toolbar__filters--standalone">
+            <div class="map-ce-filter-group" data-filter-tabs="dados_caged perfil_municipal perfil_empresas ceara_credi dinheiro_na_mao series_historicas caged_grupamentos analise_leste">
+              <label class="map-ce-filter-label" for="mapFilterAno">Ano</label>
+              <select id="mapFilterAno" class="map-ce-select-multi" multiple size="4" aria-label="Filtrar por ano"></select>
+              <button type="button" class="map-ce-filter-btn" id="mapFilterAnoClear">Limpar anos</button>
+            </div>
+            <div class="map-ce-filter-group map-ce-filter-group--mes" data-filter-tabs="dados_caged perfil_municipal perfil_empresas ceara_credi dinheiro_na_mao series_historicas caged_grupamentos analise_leste">
+              <label class="map-ce-filter-label" for="mapFilterMes">Mês/ano</label>
+              <select id="mapFilterMes" class="map-ce-select-multi" multiple size="5" aria-label="Filtrar por mês e ano"></select>
+              <button type="button" class="map-ce-filter-btn" id="mapFilterMesClear">Limpar meses</button>
+            </div>
+            <div class="map-ce-filter-group" data-filter-tabs="dados_caged perfil_municipal perfil_empresas ceara_credi dinheiro_na_mao series_historicas caged_grupamentos analise_leste seguro_desemprego">
+              <label class="map-ce-filter-label" for="mapFilterRegiao">Região administrativa</label>
+              <select
+                id="mapFilterRegiao"
+                class="map-ce-select-multi"
+                multiple
+                size="6"
+                aria-label="Filtrar por região administrativa"
+              ></select>
+              <button type="button" class="map-ce-filter-btn" id="mapFilterRegiaoClear">Limpar regiões</button>
+            </div>
+            <div class="map-ce-filter-group map-ce-filter-group--vv-ano" data-filter-tabs="vai_vem">
+              <label class="map-ce-filter-label" for="vvFilterAno">Ano</label>
+              <select id="vvFilterAno" class="map-ce-select-multi" multiple size="4" aria-label="Filtrar Vai Vem por ano da solicitação"></select>
+              <button type="button" class="map-ce-filter-btn" id="vvFilterAnoClear">Limpar anos</button>
+            </div>
+            <div class="map-ce-filter-group map-ce-filter-group--vv-mes" data-filter-tabs="vai_vem">
+              <label class="map-ce-filter-label" for="vvFilterMes">Mês/ano</label>
+              <select id="vvFilterMes" class="map-ce-select-multi" multiple size="5" aria-label="Filtrar Vai Vem por mês da solicitação"></select>
+              <button type="button" class="map-ce-filter-btn" id="vvFilterMesClear">Limpar meses</button>
+            </div>
+            <div class="map-ce-filter-group map-ce-filter-group--vai-vem-regiao" data-filter-tabs="vai_vem">
+              <label class="map-ce-filter-label" for="mapFilterVaiVemRegiao">Região (RMF/RMC)</label>
+              <select
+                id="mapFilterVaiVemRegiao"
+                class="map-ce-select-multi"
+                multiple
+                size="2"
+                aria-label="Filtrar por região metropolitana do Vai Vem"
+              >
+                <option value="RMF">RMF — Região Metropolitana de Fortaleza</option>
+                <option value="RMC">RMC — Região Metropolitana do Cariri</option>
+              </select>
+              <button type="button" class="map-ce-filter-btn" id="mapFilterVaiVemRegiaoClear">Limpar regiões</button>
+            </div>
+            <div class="map-ce-filter-group map-ce-filter-group--sd-ano" data-filter-tabs="seguro_desemprego">
+              <label class="map-ce-filter-label" for="sdFilterAno">Ano</label>
+              <select id="sdFilterAno" class="map-ce-select-multi" multiple size="4" aria-label="Filtrar Seguro Desemprego por ano"></select>
+              <button type="button" class="map-ce-filter-btn" id="sdFilterAnoClear">Limpar anos</button>
+            </div>
+            <div class="map-ce-filter-group map-ce-filter-group--sd-quinzena" data-filter-tabs="seguro_desemprego">
+              <label class="map-ce-filter-label" for="sdFilterQuinzena">Quinzena</label>
+              <select id="sdFilterQuinzena" class="map-ce-select-multi" multiple size="5" aria-label="Filtrar Seguro Desemprego por quinzena"></select>
+              <button type="button" class="map-ce-filter-btn" id="sdFilterQuinzenaClear">Limpar quinzenas</button>
+            </div>
+            <div class="map-ce-filter-group map-ce-filter-group--mun" data-filter-tabs="dados_caged perfil_municipal perfil_empresas ceara_credi dinheiro_na_mao series_historicas caged_grupamentos analise_leste vai_vem seguro_desemprego">
+              <label class="map-ce-filter-label" for="mapFilterMunicipio">Município</label>
+              <input
+                type="search"
+                id="mapFilterMunSearch"
+                class="map-ce-filter-search"
+                placeholder="Filtrar lista de municípios…"
+                autocomplete="off"
+                aria-label="Buscar município na lista"
+              />
+              <select
+                id="mapFilterMunicipio"
+                class="map-ce-select-multi"
+                multiple
+                size="8"
+                aria-label="Filtrar por município"
+              ></select>
+              <button type="button" class="map-ce-filter-btn" id="mapFilterMunClear">Limpar municípios</button>
+            </div>
+          </div>
+          <p class="map-ce-filters-wrap__status" id="cgStatus" hidden></p>
+          <p class="map-ce-filters-wrap__status" id="sdStatus" hidden></p>
+<p class="map-ce-filters-wrap__status" id="dnmStatus" hidden></p>
+        </div>
+
+        <div class="sec sec-map">
+          <div class="map-ce-toolbar map-ce-toolbar--map-only">
+            <div class="map-ce-layer-row">
+              <div class="map-ce-layer-row__graduated">
+                <label class="map-ce-filter-label" for="mapLayerStyle">Camada graduada (CAGED)</label>
+                <select id="mapLayerStyle" class="map-ce-layer-select" aria-label="Indicador graduado no mapa">
+                  <option value="estoque">Estoque (5 classes)</option>
+                  <option value="admissoes">Admissões (5 classes)</option>
+                  <option value="desligamentos">Desligamentos (5 classes)</option>
+                  <option value="saldos">Saldos (5 classes)</option>
+                </select>
+              </div>
+              <div class="map-ce-layer-row__perfil">
+                <label class="map-ce-filter-label" for="mapProfileLayerStyle">Camada municipal</label>
+                <select id="mapProfileLayerStyle" class="map-ce-layer-select" aria-label="Camada temática do perfil municipal">
+                  <option value="servidores_municipais">Servidores municipais</option>
+                  <option value="bolsa_familia">Bolsa Família</option>
+                  <option value="bpc">BPC</option>
+                  <option value="mei">MEI</option>
+                  <option value="aposentados">Aposentados</option>
+                  <option value="emprego">Emprego</option>
+                  <option value="pib_per_capta">PIB per capita</option>
+                  <option value="ceara_cred">Ceará Credi</option>
+                  <option value="mun_simples">Município Simples</option>
+                  <option value="empresa_grupamento">Empresa por grupamento</option>
+                  <option value="empresas_vinculos">Empresas por vínculos</option>
+                  <option value="vinculo_escolaridade">Vínculo por escolaridade</option>
+                  <option value="vinculo_sexo">Vínculo por sexo</option>
+                  <option value="intermediacao_atendimentos">Atendimentos</option>
+                  <option value="intermediacao_autonomos">Autônomos</option>
+                  <option value="intermediacao_cadastros">Cadastros</option>
+                  <option value="intermediacao_colocados">Colocados</option>
+                  <option value="intermediacao_egressos">Egressos</option>
+                  <option value="intermediacao_empresas">Empresas (IDT)</option>
+                  <option value="intermediacao_encaminhados">Encaminhados</option>
+                  <option value="intermediacao_pcd">PCD</option>
+                  <option value="intermediacao_vagas">Vagas</option>
+                  <option value="intermediacao_visitas">Visitas</option>
+                </select>
+              </div>
+              <div class="map-ce-layer-row__vai-vem">
+                <label class="map-ce-filter-label" for="mapVaiVemLayerStyle">Indicador no mapa</label>
+                <select id="mapVaiVemLayerStyle" class="map-ce-layer-select" aria-label="Indicador graduado do Vai Vem no mapa">
+                  <option value="total">Total de solicitações</option>
+                  <option value="desempregados">Desempregados</option>
+                  <option value="vinculoEmprego">Vínculo de emprego</option>
+                  <option value="aguardandoImpressao">Aguardando impressão</option>
+                  <option value="cartoesImpressos">Cartões impressos</option>
+                  <option value="cartaoEntregue">Cartão entregue</option>
+                </select>
+              </div>
+              <div class="map-ce-layer-row__caged-grup">
+                <div class="map-ce-layer-field">
+                  <label class="map-ce-filter-label" for="mapCagedGrupLayerStyle">Grande grupamento</label>
+                  <select id="mapCagedGrupLayerStyle" class="map-ce-layer-select" aria-label="Grande grupamento no mapa graduado">
+                    <option value="todos" selected>Todos</option>
+                    <option value="agropecuaria">Agropecuária</option>
+                    <option value="comercio">Comércio</option>
+                    <option value="construcao">Construção</option>
+                    <option value="industria">Indústria</option>
+                    <option value="servicos">Serviços</option>
+                    <option value="nao_identificado">Não Identificado</option>
+                  </select>
+                </div>
+                <div class="map-ce-layer-field">
+                  <label class="map-ce-filter-label" for="mapAnaliseLesteDesdobramentoStyle">Desdobramento</label>
+                  <select id="mapAnaliseLesteDesdobramentoStyle" class="map-ce-layer-select" aria-label="Filtrar por desdobramento">
+                    <option value="todos" selected>Todos</option>
+                  </select>
+                </div>
+                <div class="map-ce-layer-field">
+                  <label class="map-ce-filter-label" for="mapCagedGrupMetricStyle">Indicador</label>
+                  <select id="mapCagedGrupMetricStyle" class="map-ce-layer-select" aria-label="Indicador graduado do CAGED por grupamento">
+                    <option value="todos">Todos</option>
+                    <option value="estoque" selected>Total por grupamento</option>
+                    <option value="admitidos">Admitidos</option>
+                    <option value="desligados">Desligados</option>
+                    <option value="saldo">Saldo</option>
+                    <option value="salario_medio">Salário médio</option>
+                  </select>
+                </div>
+              </div>
+              <div class="map-ce-layer-row__seguro-desemprego">
+                <label class="map-ce-filter-label" for="mapSeguroDesempregoLayerStyle">Indicador no mapa</label>
+                <select id="mapSeguroDesempregoLayerStyle" class="map-ce-layer-select" aria-label="Indicador graduado do Seguro Desemprego no mapa">
+                  <option value="requerentes" selected>Requerentes</option>
+                  <option value="requerentes_web">Requerentes WEB</option>
+                </select>
+              </div>
+              <div class="map-ce-layer-row__dinheiro-na-mao">
+                <label class="map-ce-filter-label" for="mapDinheiroNaMaoLayerStyle">Indicador no mapa e rankings</label>
+                <select id="mapDinheiroNaMaoLayerStyle" class="map-ce-layer-select" aria-label="Indicador graduado do Dinheiro na Mão">
+                  <option value="operacoes" selected>Total de operações</option>
+                  <option value="valorOperacoes">Valor total das operações</option>
+                  <option value="valorJuros">Valor dos juros</option>
+                </select>
+              </div>
+              <div class="map-ce-layer-row__overlays">
+                <div class="map-ce-layer-row__toggle-wrap map-ce-layer-row__toggle-wrap--hide-analise-leste">
+                  <span class="map-ce-filter-label map-ce-filter-label--toggle">Sobrepor região</span>
+                  <button
+                    type="button"
+                    id="mapToggleRegiao"
+                    class="map-ce-toggle"
+                    aria-pressed="false"
+                    aria-label="Ativar ou desativar sobreposição da Região administrativa no mapa"
+                  >
+                    <span class="map-ce-toggle__track" aria-hidden="true"><span class="map-ce-toggle__thumb"></span></span>
+                    <span class="map-ce-toggle__text">Região administrativa</span>
+                  </button>
+                </div>
+                <div class="map-ce-layer-row__toggle-wrap">
+                  <span class="map-ce-filter-label map-ce-filter-label--toggle">Região de planejamento</span>
+                  <button
+                    type="button"
+                    id="mapTogglePlanejamento"
+                    class="map-ce-toggle"
+                    aria-pressed="false"
+                    aria-label="Ativar ou desativar a camada Região de planejamento no mapa"
+                  >
+                    <span class="map-ce-toggle__track" aria-hidden="true"><span class="map-ce-toggle__thumb"></span></span>
+                    <span class="map-ce-toggle__text">Região de planejamento</span>
+                  </button>
+                </div>
+                <div class="map-ce-layer-row__toggle-wrap">
+                  <span class="map-ce-filter-label map-ce-filter-label--toggle">Sobrepor unidades</span>
+                  <button
+                    type="button"
+                    id="mapToggleUnidades"
+                    class="map-ce-toggle"
+                    aria-pressed="false"
+                    aria-label="Ativar ou desativar sobreposição das unidades do IDT no mapa"
+                  >
+                    <span class="map-ce-toggle__track" aria-hidden="true"><span class="map-ce-toggle__thumb"></span></span>
+                    <span class="map-ce-toggle__text">Unidades do IDT</span>
+                  </button>
+                </div>
+                <div class="map-ce-layer-row__toggle-wrap">
+                  <span class="map-ce-filter-label map-ce-filter-label--toggle">Camada pontos</span>
+                  <button
+                    type="button"
+                    id="mapToggleSedes"
+                    class="map-ce-toggle"
+                    aria-pressed="false"
+                    aria-label="Ativar ou desativar a camada Sedes municipais no mapa"
+                  >
+                    <span class="map-ce-toggle__track" aria-hidden="true"><span class="map-ce-toggle__thumb"></span></span>
+                    <span class="map-ce-toggle__text">Sedes municipais</span>
+                  </button>
+                </div>
+                <div class="map-ce-layer-row__toggle-wrap map-ce-layer-row__toggle-wrap--analise-leste">
+                  <span class="map-ce-filter-label map-ce-filter-label--toggle">Sobrepor salário</span>
+                  <button
+                    type="button"
+                    id="mapToggleSalarioMedio"
+                    class="map-ce-toggle"
+                    aria-pressed="false"
+                    aria-label="Ativar ou desativar rótulos de salário médio nos municípios"
+                  >
+                    <span class="map-ce-toggle__track" aria-hidden="true"><span class="map-ce-toggle__thumb"></span></span>
+                    <span class="map-ce-toggle__text">Salário médio</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-ce-main">
+            <section class="map-ce-main__profile-kpis" aria-label="Totais do perfil municipal">
+              <p class="map-ce-main__kpis-title">
+                <span class="map-ce-main__kpis-title-inner">
+                  <i class="fa-solid fa-users" aria-hidden="true"></i>
+                  <span>KPIs do Perfil Municipal</span>
+                </span>
+              </p>
+              <div class="map-ce-kpis-bar map-ce-kpis-bar--profile" id="mapCeProfileKpis" aria-live="polite">
+                <article class="map-ce-kpi-card map-ce-kpi-card--pib">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-chart-line"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">PIB per capita</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfilePibPerCapta">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfilePibPerCaptaPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard map-ce-kpi-card--total">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-calculator"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Soma das variáveis</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileTotal">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfileTotalPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building-user"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Servidores municipais</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileServidores">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfileServidoresPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Bolsa Família</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileBolsaFamilia">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfileBolsaFamiliaPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-wallet"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">BPC</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileBpc">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfileBpcPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-id-card"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">MEI</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileMei">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfileMeiPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-person-cane"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Aposentados</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileAposentados">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfileAposentadosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-briefcase"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Emprego</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmprego">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiProfileEmpregoPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--ceara-cred">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-plus"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Cadastradas</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileCearaCredCadastradas">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--ceara-cred">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-hourglass-half"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Em atendimento</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileCearaCredEmAtendimento">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--ceara-cred">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Aprovadas</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileCearaCredAprovadas">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--ceara-cred">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-sack-dollar"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Valor liberado</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileCearaCredValorLiberado">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--mun-simples">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Não</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileMunSimplesNao">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--mun-simples">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Sim</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileMunSimplesSim">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--mun-simples">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileMunSimplesTotal">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Agricultura, pecuária, produção florestal, pesca e aquicultura">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-wheat-awn"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Agricultura, pesca e floresta</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_agriculturapecuariaproducaoflorestalpescaeaquicultura">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Indústria geral">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-industry"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Indústria geral</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_industriageral">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Construção">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-helmet-safety"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Construção</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_construcao">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Comércio, reparação de veículos automotores e motocicletas">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-store"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Comércio e veículos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_comercioreparacaodeveiculosautomotoresemotocicletas">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Transporte, armazenagem e correio">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-truck"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Transporte e correio</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_transportearmazenagemecorreio">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Alojamento e alimentação">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-utensils"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Alojamento e alimentação</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_alojamentoealimentacao">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Informação, comunicação e atividades financeiras, imobiliárias, profissionais e administrativas">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-chart-line"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Informação e finanças</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_informacaocomunicacaoeatividadesfinanceirasimobiliariasprofissionaiseadministrativas">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Administração pública, defesa, seguridade social, educação, saúde humana e serviços sociais">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-landmark"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Administração pública</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_administracaopublicadefesaseguridadesocialeducacaosaudehumanaeservicossociais">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Outros serviços">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Outros serviços</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_outrosservicos">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento" title="Serviços domésticos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-house"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Serviços domésticos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_servicosdomesticos">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresa-grupamento map-ce-kpi-card--empresa-grupamento-total" title="Total de empresas">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total de empresas</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresaGrupamento_total">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 1 a 4 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 1 a 4</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de1a4">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 5 a 9 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-users"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 5 a 9</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de5a9">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 10 a 19 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-users-line"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 10 a 19</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de10a19">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 20 a 49 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-people-group"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 20 a 49</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de20a49">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 50 a 99 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-group"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 50 a 99</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de50a99">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 100 a 249 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building-user"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 100 a 249</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de100a249">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 250 a 499 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-city"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 250 a 499</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de250a499">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="De 500 a 999 vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">De 500 a 999</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_de500a999">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos" title="1000 ou mais vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-buildings"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">1000 ou mais</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_n1000oumais">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--empresas-vinculos map-ce-kpi-card--empresas-vinculos-total" title="Total de empresas">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-chart-pie"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total de empresas</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileEmpresasVinculos_total">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Analfabeto">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-book-open-reader"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Analfabeto</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_analfabeto">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Até 5º incompleto">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-school"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Até 5º incompleto</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_ate5incompleto">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="5º completo fundamental">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-graduation-cap"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">5º compl. fundamental</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_n5completofundamental">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="6º a 9º fundamental">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-graduate"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">6º a 9º fundamental</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_n6a9fundamental">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Fundamental completo">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-book"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Fundamental completo</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_fundamentalcompleto">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Médio incompleto">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-pencil"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Médio incompleto</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_medioincompleto">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Médio completo">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-school-flag"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Médio completo</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_mediocompleto">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Superior incompleto">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building-columns"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Superior incompleto</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_superiorincompleto">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Superior completo">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-tie"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Superior completo</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_superiorcompleto">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Mestrado">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-award"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Mestrado</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_mestrado">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade" title="Doutorado">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-certificate"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Doutorado</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_doutorado">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-escolaridade map-ce-kpi-card--vinculo-escolaridade-total" title="Total de vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-users-viewfinder"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total de vínculos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoEscolaridade_total">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-sexo" title="Masculino">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-mars"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Masculino</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoSexo_masculino">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-sexo" title="Feminino">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-venus"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Feminino</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoSexo_feminino">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--vinculo-sexo map-ce-kpi-card--vinculo-sexo-total" title="Total de vínculos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-venus-mars"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total de vínculos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiProfileVinculoSexo_total">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="atendimentos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-handshake"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Atendimentos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntAtendimentos">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntAtendimentosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="autonomos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-briefcase"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Autônomos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntAutonomos">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntAutonomosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="cadastros">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-clipboard-list"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Cadastros</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntCadastros">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntCadastrosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="colocados">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-check"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Colocados</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntColocados">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntColocadosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="egressos">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-door-open"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Egressos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntEgressos">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntEgressosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="empresas">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Empresas</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntEmpresas">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntEmpresasPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="encaminhados">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Encaminhados</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntEncaminhados">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntEncaminhadosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="pcd">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-wheelchair"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">PCD</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntPcd">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntPcdPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="vagas">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-rectangle-list"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Vagas</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntVagas">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntVagasPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--intermediacao" data-int-key="visitas">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-shoe-prints"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Visitas</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="mapKpiIntVisitas">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="mapKpiIntVisitasPct">—</span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <p class="map-ce-main__profile-kpis-note">percentuais em relação à população</p>
+            </section>
+            <section class="map-ce-main__vai-vem-kpis" aria-label="Indicadores Vai Vem Trabalhador">
+              <p class="map-ce-main__kpis-title">
+                <span class="map-ce-main__kpis-title-inner">
+                  <i class="fa-solid fa-bus" aria-hidden="true"></i>
+                  <span>KPIs do Vai Vem</span>
+                </span>
+              </p>
+              <div class="map-ce-kpis-bar map-ce-kpis-bar--profile" id="mapCeVaiVemKpis" aria-live="polite">
+                <p class="map-ce-vv-kpi-category">Status de Beneficiários</p>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard map-ce-kpi-card--total">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-users"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiTotal">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiTotalPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-clock"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Desempregados</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiDesempregados">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiDesempregadosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-briefcase"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Vínculo Emprego</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiVinculoEmprego">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiVinculoEmpregoPct">—</span>
+                    </div>
+                  </div>
+                </article>
+
+                <p class="map-ce-vv-kpi-category">Status de Situação Cartões</p>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-print"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Aguardando Impressão</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiAguardandoImpressao">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiAguardandoImpressaoPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-id-card"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Cartões Impressos</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiCartoesImpressos">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiCartoesImpressosPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Cartão Entregue</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiCartaoEntregue">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiCartaoEntreguePct">—</span>
+                    </div>
+                  </div>
+                </article>
+
+                <p class="map-ce-vv-kpi-category">Solicitações por Região</p>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Solicitações RMF</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiSolicitacoesRmf">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiSolicitacoesRmfPct">—</span>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-map-pin"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Solicitações RMC</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="vvKpiSolicitacoesRmc">—</strong>
+                      <span class="map-ce-kpi-card__meta" id="vvKpiSolicitacoesRmcPct">—</span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <p class="map-ce-main__profile-kpis-note" id="vvKpiStatus" role="status">Carregando…</p>
+            </section>
+            <section class="map-ce-main__seguro-desemprego-kpis" aria-label="Indicadores Seguro Desemprego">
+              <p class="map-ce-main__kpis-title">
+                <span class="map-ce-main__kpis-title-inner">
+                  <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                  <span>KPIs do Seguro Desemprego</span>
+                </span>
+              </p>
+              <div class="map-ce-kpis-bar map-ce-kpis-bar--profile" id="mapCeSeguroDesempregoKpis" aria-live="polite">
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-users"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Requerentes</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="sdKpiRequerentes">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-globe"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Requerentes WEB</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="sdKpiRequerentesWeb">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Requerentes Presencial</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="sdKpiRequerentesPresencial">—</strong>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <p class="map-ce-main__profile-kpis-note" id="sdKpiStatus" role="status">Carregando…</p>
+            </section>
+            <section class="map-ce-main__dinheiro-na-mao-kpis" aria-label="Indicadores Dinheiro na Mão">
+              <p class="map-ce-main__kpis-title">
+                <span class="map-ce-main__kpis-title-inner">
+                  <i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i>
+                  <span>KPIs do Dinheiro na Mão</span>
+                </span>
+              </p>
+              <div class="map-ce-kpis-bar map-ce-kpis-bar--profile" id="mapCeDinheiroNaMaoKpis" aria-live="polite">
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-file-signature"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total de operações</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="dnmKpiOperacoes">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-sack-dollar"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Valor das operações</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="dnmKpiValorOperacoes">—</strong>
+                    </div>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card map-ce-kpi-card--profile-standard">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-percent"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Valor dos juros</span>
+                    <div class="map-ce-kpi-card__metrics">
+                      <strong class="map-ce-kpi-card__value" id="dnmKpiValorJuros">—</strong>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <p class="map-ce-main__profile-kpis-note" id="dnmKpiStatus" role="status">Carregando…</p>
+            </section>
+            <div class="map-ce-main__map-view" id="mapa">
+              <div
+                id="mapCeRegioes"
+                class="map-ce-regioes-canvas"
+                role="application"
+                aria-label="Mapa do Ceará por município e região administrativa"
+              ></div>
+            </div>
+            <aside class="map-ce-main__kpis" aria-label="Totais nos filtros ativos">
+              <p class="map-ce-main__kpis-title">
+                <span class="map-ce-main__kpis-title-inner">
+                  <i class="fa-solid fa-chart-column" aria-hidden="true"></i>
+                  <span>Totais no filtro</span>
+                </span>
+              </p>
+              <div class="map-ce-kpis-bar map-ce-kpis-bar--side" id="mapCeKpis" aria-live="polite">
+                <article class="map-ce-kpi-card">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-warehouse"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Total por grupamento</span>
+                    <strong class="map-ce-kpi-card__value" id="mapKpiEstoque">—</strong>
+                  </div>
+                </article>
+                <article
+                  class="map-ce-kpi-card"
+                  title="Estoque total do município (coluna Estoque_Total) · último mês no filtro · um valor por município"
+                >
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-building"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Estoque total</span>
+                    <strong class="map-ce-kpi-card__value" id="mapKpiEstoqueTotal">—</strong>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-plus"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Admissões</span>
+                    <strong class="map-ce-kpi-card__value" id="mapKpiAdmissoes">—</strong>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-user-minus"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Desligamentos</span>
+                    <strong class="map-ce-kpi-card__value" id="mapKpiDesligamentos">—</strong>
+                  </div>
+                </article>
+                <article class="map-ce-kpi-card">
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-scale-balanced"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Saldos</span>
+                    <strong class="map-ce-kpi-card__value" id="mapKpiSaldos">—</strong>
+                  </div>
+                </article>
+                <article
+                  class="map-ce-kpi-card"
+                  title="Estoque CAGED (último mês no filtro) sobre população municipal no mesmo recorte (sedes / GeoJSON)"
+                >
+                  <span class="map-ce-kpi-card__icon" aria-hidden="true"><i class="fa-solid fa-percent"></i></span>
+                  <div class="map-ce-kpi-card__body">
+                    <span class="map-ce-kpi-card__label">Formalização</span>
+                    <strong class="map-ce-kpi-card__value" id="mapKpiFormalizacao">—</strong>
+                  </div>
+                </article>
+              </div>
+            </aside>
+            <div id="mapCeLegend" class="map-ce-legend map-ce-main__legend" aria-live="polite"></div>
+          </div>
+
+          <p class="map-ce-regioes-foot">
+            Fonte: CAGED | Mês de referência: <span id="mapRefMesAno">—</span>
+          </p>
+        </div>
+
+        <div class="map-ce-sd-charts-wrap">
+          <section class="map-ce-cg-rankings-wrap" aria-label="Ranking Seguro Desemprego por município e região">
+            <div class="map-ce-cg-rankings">
+              <div class="map-ce-cg-rankings__head">
+                <h3 class="map-ce-cg-rankings__title">Ranking por município e região</h3>
+                <p id="sdRankingsHeadHint" class="map-ce-cg-rankings__hint">
+                  Indicador selecionado no mapa · valor absoluto no recorte dos filtros
+                </p>
+                <div class="map-ce-rankings__toolbar">
+                  <label class="map-ce-filter-label" for="sdRankOrder">Ordenação</label>
+                  <select id="sdRankOrder" class="map-ce-layer-select map-ce-rankings__select" aria-label="Mostrar os 15 maiores ou os 15 menores valores nos gráficos por município e região">
+                    <option value="maiores">15 maiores</option>
+                    <option value="menores">15 menores</option>
+                  </select>
+                </div>
+              </div>
+              <div class="map-ce-cg-formalizacao-wrap">
+                <article class="map-ce-cg-chart-panel">
+                  <h3 class="map-ce-cg-chart-panel__title">Por município</h3>
+                  <div id="sdChartRankingMun" class="map-ce-cg-chart-panel__chart" aria-label="Ranking por município"></div>
+                </article>
+                <article class="map-ce-cg-chart-panel">
+                  <h3 class="map-ce-cg-chart-panel__title">Por região</h3>
+                  <div id="sdChartRankingReg" class="map-ce-cg-chart-panel__chart" aria-label="Ranking por região"></div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <div class="map-ce-line-wrap map-ce-sd-line-wrap">
+            <div class="map-ce-line-block">
+              <h3 class="map-ce-line-block__title">Requerentes por Quinzena</h3>
+              <p class="map-ce-line-block__hint">Evolução do total de requerentes por competência quinzenal · mesmos filtros do mapa (exceto quinzena)</p>
+              <div id="sdChartQuinzenaLine" class="map-ce-line-block__chart" aria-label="Gráfico de linha de requerentes por quinzena"></div>
+            </div>
+          </div>
+          <div class="map-ce-line-wrap map-ce-sd-line-wrap map-ce-line-wrap--stacked">
+            <div class="map-ce-line-block">
+              <h3 class="map-ce-line-block__title">Requerentes por Quinzena e Tipo de Atendimento</h3>
+              <p class="map-ce-line-block__hint">Participação percentual Presencial e WEB em cada quinzena · mesmos filtros do mapa (exceto quinzena)</p>
+              <div id="sdChartQuinzenaStacked" class="map-ce-line-block__chart map-ce-line-block__chart--stacked" aria-label="Gráfico empilhado de requerentes por quinzena e tipo de atendimento"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-dnm-charts-wrap">
+          <section class="map-ce-cg-rankings-wrap" aria-label="Ranking Dinheiro na Mão por município e região">
+            <div class="map-ce-cg-rankings">
+              <div class="map-ce-cg-rankings__head">
+                <h3 class="map-ce-cg-rankings__title">Ranking por município e região</h3>
+                <p id="dnmRankingsHeadHint" class="map-ce-cg-rankings__hint">
+                  Indicador selecionado no mapa · valor absoluto no recorte dos filtros
+                </p>
+                <div class="map-ce-rankings__toolbar">
+                  <label class="map-ce-filter-label" for="dnmRankOrder">Ordenação</label>
+                  <select id="dnmRankOrder" class="map-ce-layer-select map-ce-rankings__select" aria-label="Ordenar rankings do Dinheiro na Mão">
+                    <option value="maiores">15 maiores</option>
+                    <option value="menores">15 menores</option>
+                  </select>
+                </div>
+              </div>
+              <div class="map-ce-cg-formalizacao-wrap">
+                <article class="map-ce-cg-chart-panel">
+                  <h3 class="map-ce-cg-chart-panel__title">Por município</h3>
+                  <div id="dnmChartRankingMun" class="map-ce-cg-chart-panel__chart" aria-label="Ranking Dinheiro na Mão por município"></div>
+                </article>
+                <article class="map-ce-cg-chart-panel">
+                  <h3 class="map-ce-cg-chart-panel__title">Por região</h3>
+                  <div id="dnmChartRankingReg" class="map-ce-cg-chart-panel__chart" aria-label="Ranking Dinheiro na Mão por região"></div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <div class="map-ce-line-wrap map-ce-dnm-line-wrap">
+            <div class="map-ce-line-block">
+              <h3 class="map-ce-line-block__title">Dinheiro na Mão — evolução mensal</h3>
+              <p class="map-ce-line-block__hint">
+                Valor total das operações e valor dos juros por DATA DESEMBOLSO / DATA CONTRATO · mesmos filtros ativos
+              </p>
+              <div id="dnmChartPeriodoLine" class="map-ce-line-block__chart" aria-label="Gráfico mensal financeiro do Dinheiro na Mão"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-cg-charts-wrap" id="ranking">
+          <section class="map-ce-cg-rankings-wrap" aria-label="Ranking Análise Região Leste por município e região">
+            <div class="map-ce-cg-rankings">
+              <div class="map-ce-cg-rankings__head">
+                <h3 class="map-ce-cg-rankings__title">Ranking por município e região</h3>
+                <p id="cgRankingsHeadHint" class="map-ce-cg-rankings__hint">
+                  Indicador selecionado no mapa · valor absoluto no recorte dos filtros
+                </p>
+                <div class="map-ce-rankings__toolbar">
+                  <label class="map-ce-filter-label" for="cgRankOrder">Ordenação</label>
+                  <select id="cgRankOrder" class="map-ce-layer-select map-ce-rankings__select" aria-label="Mostrar os 15 maiores ou os 15 menores valores nos gráficos por município e região">
+                    <option value="maiores">15 maiores</option>
+                    <option value="menores">15 menores</option>
+                  </select>
+                </div>
+              </div>
+              <div class="map-ce-cg-formalizacao-wrap">
+                <article class="map-ce-cg-chart-panel">
+                  <h3 class="map-ce-cg-chart-panel__title">Por município</h3>
+                  <div id="cgChartFormalizacaoMun" class="map-ce-cg-chart-panel__chart" aria-label="Ranking por município"></div>
+                </article>
+                <article class="map-ce-cg-chart-panel">
+                  <h3 class="map-ce-cg-chart-panel__title">Por região</h3>
+                  <div id="cgChartFormalizacaoReg" class="map-ce-cg-chart-panel__chart" aria-label="Ranking por região"></div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="map-ce-cg-analytics" id="metricas" aria-label="Análises de emprego formal — Alojamento e alimentação">
+            <div class="map-ce-cg-analytics__head">
+              <h3 class="map-ce-cg-analytics__title">Métricas centrais do setor</h3>
+              <p class="map-ce-cg-analytics__hint">
+                Movimentação no período, saldo, rotatividade, peso do estoque setorial e estagnação · mesmos filtros de referência, região e município.
+                No mapa, use o indicador <strong>Total por grupamento</strong> (e o desdobramento Alojamento, se desejar) para o mapa de calor municipal.
+              </p>
+            </div>
+
+            <div class="map-ce-cg-analytics__grid">
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics map-ce-cg-chart-panel--line">
+                <h3 class="map-ce-cg-chart-panel__title">Movimentação no período</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show">
+                  Admitidos, desligados e saldo mês a mês · respeita ano, região, município, grupamento e desdobramento (ignora o filtro de mês para mostrar a série)
+                </p>
+                <div id="cgChartMovimentacaoLine" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--line" aria-label="Gráfico de linha da movimentação no período"></div>
+              </article>
+            </div>
+
+            <div class="map-ce-cg-analytics__grid map-ce-cg-analytics__grid--2">
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics">
+                <h3 class="map-ce-cg-chart-panel__title">Saldo líquido por município</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show">
+                  Admitidos − Desligados · do mais negativo ao mais positivo · municípios com movimentação ou saldo ≠ 0
+                </p>
+                <div id="cgChartSaldoMun" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--tall" aria-label="Saldo líquido por município"></div>
+              </article>
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics">
+                <h3 class="map-ce-cg-chart-panel__title">Ranking de rotatividade</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show">
+                  (Admitidos + Desligados) ÷ Estoque mensal · municípios com estoque &gt; 0
+                </p>
+                <div id="cgChartRotatividade" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--tall" aria-label="Ranking de rotatividade"></div>
+              </article>
+            </div>
+
+            <div class="map-ce-cg-analytics__grid map-ce-cg-analytics__grid--2">
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics">
+                <h3 class="map-ce-cg-chart-panel__title">Peso do estoque mensal no total</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show">
+                  Estoque mensal ÷ Estoque total · participação do recorte no emprego formal municipal
+                </p>
+                <div id="cgChartPesoEstoque" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--tall" aria-label="Peso do estoque mensal no estoque total"></div>
+              </article>
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics">
+                <h3 class="map-ce-cg-chart-panel__title">Alojamento × Alimentação</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show">
+                  Estoque mensal por desdobramento · top municípios por estoque conjunto em ordem decrescente (ignora filtro de desdobramento)
+                </p>
+                <div id="cgChartAlojAlim" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--tall" aria-label="Comparativo Alojamento e Alimentação"></div>
+              </article>
+            </div>
+
+            <div class="map-ce-cg-analytics__grid">
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics">
+                <h3 class="map-ce-cg-chart-panel__title">Estoque sem movimentação no mês</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show" id="cgEstagnadosHint">
+                  Municípios com estoque mensal &gt; 0 e sem admitidos nem desligados no recorte
+                </p>
+                <div class="map-ce-cg-estagnados-scroll">
+                  <table class="map-ce-cg-estagnados-table">
+                    <thead>
+                      <tr>
+                        <th>Município</th>
+                        <th>Estoque mensal</th>
+                        <th>Estoque total</th>
+                      </tr>
+                    </thead>
+                    <tbody id="cgEstagnadosBody"></tbody>
+                  </table>
+                </div>
+              </article>
+            </div>
+
+            <div class="map-ce-cg-analytics__grid" id="cgCompareEstoqueSection">
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics map-ce-cg-chart-panel--line">
+                <h3 class="map-ce-cg-chart-panel__title">Comparação de estoque entre municípios</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show">
+                  Estoque mensal (Total por grupamento) ao longo do período · escolha até 4 municípios entre os selecionados no filtro Município · respeita ano, grupamento e desdobramento
+                </p>
+                <div class="map-ce-cg-compare-selects" id="cgCompareEstoqueSelects" aria-label="Municípios para comparação de estoque">
+                  <div class="map-ce-cg-compare-field">
+                    <label class="map-ce-filter-label" for="cgCompareMun1">Município 1</label>
+                    <select id="cgCompareMun1" class="map-ce-layer-select map-ce-cg-compare-select" data-compare-slot="0"></select>
+                  </div>
+                  <div class="map-ce-cg-compare-field">
+                    <label class="map-ce-filter-label" for="cgCompareMun2">Município 2</label>
+                    <select id="cgCompareMun2" class="map-ce-layer-select map-ce-cg-compare-select" data-compare-slot="1"></select>
+                  </div>
+                  <div class="map-ce-cg-compare-field">
+                    <label class="map-ce-filter-label" for="cgCompareMun3">Município 3</label>
+                    <select id="cgCompareMun3" class="map-ce-layer-select map-ce-cg-compare-select" data-compare-slot="2"></select>
+                  </div>
+                  <div class="map-ce-cg-compare-field">
+                    <label class="map-ce-filter-label" for="cgCompareMun4">Município 4</label>
+                    <select id="cgCompareMun4" class="map-ce-layer-select map-ce-cg-compare-select" data-compare-slot="3"></select>
+                  </div>
+                </div>
+                <div id="cgChartCompareEstoqueLine" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--line" aria-label="Gráfico de linha comparando estoque de até 4 municípios"></div>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="map-ce-vv-charts-wrap">
+          <div class="map-ce-line-wrap">
+            <div class="map-ce-line-block">
+              <h3 class="map-ce-line-block__title">Vai Vem — solicitações por período</h3>
+              <p class="map-ce-line-block__hint">
+                Com base em <code>data_solicitacao</code> · mesmos filtros de ano, mês, região e município · evolução mensal do total, desempregados e vínculos de emprego
+              </p>
+              <div id="vvChartLinePeriodo" class="map-ce-line-block__chart" aria-label="Gráfico de linhas de solicitações Vai Vem por mês"></div>
+            </div>
+          </div>
+          <div class="map-ce-vv-bars-wrap">
+            <article class="map-ce-vv-bar-panel">
+              <h3 class="map-ce-vv-bar-panel__title">Total por município</h3>
+              <p class="map-ce-vv-bar-panel__hint">Solicitações no recorte dos filtros ativos · ordenado do maior para o menor</p>
+              <div id="vvChartBarMunicipio" class="map-ce-vv-bar-panel__chart" aria-label="Gráfico de barras por município"></div>
+            </article>
+            <article class="map-ce-vv-bar-panel">
+              <h3 class="map-ce-vv-bar-panel__title">Total por região</h3>
+              <p class="map-ce-vv-bar-panel__hint">Solicitações RMF e RMC no recorte dos filtros ativos</p>
+              <div id="vvChartBarRegiao" class="map-ce-vv-bar-panel__chart map-ce-vv-bar-panel__chart--regiao" aria-label="Gráfico de barras por região"></div>
+            </article>
+          </div>
+
+          <div class="map-ce-vv-detail-charts">
+            <div class="map-ce-vv-detail-charts__row">
+              <article class="map-ce-vv-bar-panel map-ce-vv-bar-panel--detail">
+                <h3 class="map-ce-vv-bar-panel__title">Solicitações por Unidade</h3>
+                <div id="vvChartBarUnidade" class="map-ce-vv-bar-panel__chart map-ce-vv-bar-panel__chart--scroll" aria-label="Gráfico de barras por unidade"></div>
+              </article>
+              <article class="map-ce-vv-bar-panel map-ce-vv-bar-panel--detail">
+                <h3 class="map-ce-vv-bar-panel__title">Solicitações por Status IDT</h3>
+                <div id="vvChartBarStatusIdt" class="map-ce-vv-bar-panel__chart" aria-label="Gráfico de barras por status IDT"></div>
+              </article>
+            </div>
+            <div class="map-ce-vv-detail-charts__row">
+              <article class="map-ce-vv-bar-panel map-ce-vv-bar-panel--detail">
+                <h3 class="map-ce-vv-bar-panel__title">Solicitações por Gênero</h3>
+                <div id="vvChartDonutGenero" class="map-ce-vv-bar-panel__chart map-ce-vv-bar-panel__chart--donut" aria-label="Gráfico de rosca por gênero"></div>
+              </article>
+              <article class="map-ce-vv-bar-panel map-ce-vv-bar-panel--detail">
+                <h3 class="map-ce-vv-bar-panel__title">Solicitações por Raça/Cor</h3>
+                <div id="vvChartBarRacaCor" class="map-ce-vv-bar-panel__chart" aria-label="Gráfico de barras por raça ou cor"></div>
+              </article>
+            </div>
+            <div class="map-ce-vv-detail-charts__row">
+              <article class="map-ce-vv-bar-panel map-ce-vv-bar-panel--detail">
+                <h3 class="map-ce-vv-bar-panel__title">Solicitações por Papel na Família</h3>
+                <div id="vvChartDonutPapelFamilia" class="map-ce-vv-bar-panel__chart map-ce-vv-bar-panel__chart--donut" aria-label="Gráfico de rosca por papel na família"></div>
+              </article>
+              <article class="map-ce-vv-bar-panel map-ce-vv-bar-panel--detail">
+                <h3 class="map-ce-vv-bar-panel__title">Solicitações por Escolaridade</h3>
+                <div id="vvChartBarEscolaridade" class="map-ce-vv-bar-panel__chart" aria-label="Gráfico de barras por escolaridade"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-intermediacao-line-wrap" hidden aria-hidden="true">
+          <div class="map-ce-line-block">
+            <h3 class="map-ce-line-block__title">Intermediação — desempenho mensal</h3>
+            <p class="map-ce-line-block__hint">
+              Mesmos filtros de ano, região e município do mapa · evolução mês a mês · linha contínua = Real · linha tracejada = Previsão (col. Prev.) · marque ou desmarque as variáveis abaixo
+            </p>
+            <div id="mapIntermediacaoLineFilters" class="map-ce-ceara-line-filters" aria-label="Filtros do gráfico de intermediação por mês">
+              <div class="map-ce-ceara-line-filters__group">
+                <span class="map-ce-ceara-line-filters__label">Variáveis</span>
+                <div id="mapIntermediacaoLineMetricFilters" class="map-ce-ceara-line-filters__chips"></div>
+              </div>
+            </div>
+            <p id="mapIntermediacaoLineEmpty" class="map-ce-ceara-line-empty" hidden>Selecione ao menos uma variável para exibir o gráfico.</p>
+            <div
+              id="mapIntermediacaoLineChart"
+              class="map-ce-line-block__chart"
+              aria-label="Gráfico de linhas de desempenho mensal da intermediação"
+            ></div>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--standard">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title" id="mapProfileChartsTitle">Variáveis do perfil municipal</h3>
+                <p class="map-ce-profile-charts__hint" id="mapProfileChartsHint">
+                  Mesmos filtros do mapa · comparação entre as seis variáveis (coluna Pessoas) · referência mais recente do recorte · ordenação pela camada selecionada no mapa
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortToggle"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos do perfil municipal"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title" id="mapProfileChartMunicipioTitle">Por município</h4>
+                <div id="mapProfileChartMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title" id="mapProfileChartRegiaoTitle">Por região</h4>
+                <div id="mapProfileChartRegiao" class="map-ce-profile-charts__chart"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--mun-simples" hidden aria-hidden="true">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title">Município Simples</h3>
+                <p class="map-ce-profile-charts__hint">
+                  Mesmos filtros do mapa (referência, região e município) · barras Não e Sim · mapa classificado pela coluna Total
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortToggleMunSimples"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos do Município Simples"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por município</h4>
+                <div id="mapProfileChartMunSimplesMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por região</h4>
+                <div id="mapProfileChartMunSimplesRegiao" class="map-ce-profile-charts__chart"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--empresa-grupamento" hidden aria-hidden="true">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title">Empresa por grupamento</h3>
+                <p class="map-ce-profile-charts__hint">
+                  Mesmos filtros do mapa (referência, região e município) · barras por setor no município · pizza com % por setor · barras por região com todos os grupamentos
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortToggleEmpresaGrupamento"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos de empresa por grupamento"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por município</h4>
+                <div id="mapProfileChartEmpresaGrupamentoMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel map-ce-profile-charts__panel--pie">
+                <h4 class="map-ce-profile-charts__panel-title">Participação por setor · % do total</h4>
+                <div id="mapProfileChartEmpresaGrupamentoRegiao" class="map-ce-profile-charts__chart map-ce-profile-charts__chart--pie"></div>
+              </article>
+            </div>
+            <article class="map-ce-profile-charts__panel map-ce-profile-charts__panel--empresa-regiao-barras">
+              <h4 class="map-ce-profile-charts__panel-title">Por região · todos os grupamentos</h4>
+              <div id="mapProfileChartEmpresaGrupamentoRegiaoBarras" class="map-ce-profile-charts__chart"></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--empresas-vinculos" hidden aria-hidden="true">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title">Empresas por vínculos</h3>
+                <p class="map-ce-profile-charts__hint">
+                  Empresas por faixa de vínculos · mapa classificado pelo total · barras por município · pizza com % por faixa · barras por região
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortToggleEmpresasVinculos"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos de empresas por vínculos"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por município</h4>
+                <div id="mapProfileChartEmpresasVinculosMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel map-ce-profile-charts__panel--pie">
+                <h4 class="map-ce-profile-charts__panel-title">Participação por faixa · % do total</h4>
+                <div id="mapProfileChartEmpresasVinculosRegiao" class="map-ce-profile-charts__chart map-ce-profile-charts__chart--pie"></div>
+              </article>
+            </div>
+            <article class="map-ce-profile-charts__panel map-ce-profile-charts__panel--empresas-vinculos-regiao-barras">
+              <h4 class="map-ce-profile-charts__panel-title">Por região · todas as faixas de vínculos</h4>
+              <div id="mapProfileChartEmpresasVinculosRegiaoBarras" class="map-ce-profile-charts__chart"></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--vinculo-escolaridade" hidden aria-hidden="true">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title">Vínculo por escolaridade</h3>
+                <p class="map-ce-profile-charts__hint">
+                  Vínculos por nível de escolaridade · mapa classificado pelo total · barras por município · pizza com % por escolaridade · barras por região
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortToggleVinculoEscolaridade"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos de vínculo por escolaridade"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por município</h4>
+                <div id="mapProfileChartVinculoEscolaridadeMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel map-ce-profile-charts__panel--pie">
+                <h4 class="map-ce-profile-charts__panel-title">Participação por escolaridade · % do total</h4>
+                <div id="mapProfileChartVinculoEscolaridadeRegiao" class="map-ce-profile-charts__chart map-ce-profile-charts__chart--pie"></div>
+              </article>
+            </div>
+            <article class="map-ce-profile-charts__panel map-ce-profile-charts__panel--vinculo-escolaridade-regiao-barras">
+              <h4 class="map-ce-profile-charts__panel-title">Por região · todos os níveis de escolaridade</h4>
+              <div id="mapProfileChartVinculoEscolaridadeRegiaoBarras" class="map-ce-profile-charts__chart"></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--vinculo-sexo" hidden aria-hidden="true">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title">Vínculo por sexo</h3>
+                <p class="map-ce-profile-charts__hint">
+                  Vínculos por sexo · mapa classificado pelo total · barras por município · pizza com % por sexo
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortToggleVinculoSexo"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos de vínculo por sexo"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por município</h4>
+                <div id="mapProfileChartVinculoSexoMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel map-ce-profile-charts__panel--pie">
+                <h4 class="map-ce-profile-charts__panel-title">Participação por sexo · % do total</h4>
+                <div id="mapProfileChartVinculoSexoRegiao" class="map-ce-profile-charts__chart map-ce-profile-charts__chart--pie"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--ceara-cred" hidden aria-hidden="true">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title">Ceará Credi — indicadores</h3>
+                <p class="map-ce-profile-charts__hint">
+                  Mesmos filtros do mapa · Cadastradas, Em atendimento, Aprovadas e Valor liberado no recorte · evolução anual no gráfico de linhas abaixo
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortToggleCeara"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos do Ceará Credi"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Indicadores por município</h4>
+                <div id="mapProfileChartCearaMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Indicadores por região</h4>
+                <div id="mapProfileChartCearaRegiao" class="map-ce-profile-charts__chart"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-ceara-cred-line-wrap" hidden aria-hidden="true">
+          <div class="map-ce-line-block">
+            <h3 class="map-ce-line-block__title">Ceará Credi — evolução por ano</h3>
+            <p class="map-ce-line-block__hint">
+              Mesmos filtros de região e município do mapa · use os filtros abaixo para escolher anos e variáveis · totais somados por ano de referência
+            </p>
+            <div id="mapCearaCredLineFilters" class="map-ce-ceara-line-filters" aria-label="Filtros do gráfico Ceará Credi por ano">
+              <div class="map-ce-ceara-line-filters__group">
+                <span class="map-ce-ceara-line-filters__label">Anos</span>
+                <div id="mapCearaCredLineYearFilters" class="map-ce-ceara-line-filters__chips"></div>
+              </div>
+              <div class="map-ce-ceara-line-filters__group">
+                <span class="map-ce-ceara-line-filters__label">Variáveis</span>
+                <div class="map-ce-ceara-line-filters__chips">
+                  <label class="map-ce-chip">
+                    <input type="checkbox" name="cearaLineMetric" value="cadastradas" checked />
+                    <span>Cadastradas</span>
+                  </label>
+                  <label class="map-ce-chip">
+                    <input type="checkbox" name="cearaLineMetric" value="em_atendimento" checked />
+                    <span>Em atendimento</span>
+                  </label>
+                  <label class="map-ce-chip">
+                    <input type="checkbox" name="cearaLineMetric" value="aprovadas" checked />
+                    <span>Aprovadas</span>
+                  </label>
+                  <label class="map-ce-chip">
+                    <input type="checkbox" name="cearaLineMetric" value="valor_liberado" checked />
+                    <span>Valor liberado</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <p id="mapCearaCredLineEmpty" class="map-ce-ceara-line-empty" hidden>Selecione ao menos um ano e uma variável para exibir o gráfico.</p>
+            <div
+              id="mapProfileCearaCredLineChart"
+              class="map-ce-line-block__chart"
+              aria-label="Gráfico de linhas Ceará Credi por ano"
+            ></div>
+          </div>
+        </div>
+
+        <div class="map-ce-pib-line-wrap" hidden aria-hidden="true">
+          <div class="map-ce-line-block">
+            <h3 class="map-ce-line-block__title">PIB per capita — evolução anual</h3>
+            <p class="map-ce-line-block__hint">
+              Mesmos filtros do mapa · comparação entre anos (2010–2023) · até 10 municípios (os de maior PIB no ano mais recente) · rótulos ▲/▼ com variação % em relação ao ano anterior (visíveis com até 4 séries)
+            </p>
+            <div
+              id="mapProfilePibLineChart"
+              class="map-ce-line-block__chart"
+              aria-label="Gráfico de linhas PIB per capita por ano"
+            ></div>
+          </div>
+        </div>
+
+        <div class="map-ce-profile-charts-wrap map-ce-profile-charts-wrap--pib" hidden aria-hidden="true">
+          <div class="map-ce-profile-charts">
+            <div class="map-ce-profile-charts__head">
+              <div class="map-ce-profile-charts__intro">
+                <h3 class="map-ce-profile-charts__title">PIB per capita — comparação com a média</h3>
+                <p class="map-ce-profile-charts__hint">
+                  Mesmos filtros do mapa (ano, região e município) · média do PIB per capita nos anos selecionados · barras laranja = valor do recorte · barras cinza = média geral dos municípios/regiões no filtro
+                </p>
+              </div>
+              <button
+                type="button"
+                id="mapProfileSortTogglePib"
+                class="map-ce-profile-charts__sort-btn"
+                data-order="desc"
+                aria-label="Alternar ordenação dos gráficos de PIB per capita"
+              >
+                Ordem: decrescente
+              </button>
+            </div>
+            <div class="map-ce-profile-charts__grid">
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por município · média nos anos filtrados vs média geral</h4>
+                <div id="mapProfileChartPibMunicipio" class="map-ce-profile-charts__chart"></div>
+              </article>
+              <article class="map-ce-profile-charts__panel">
+                <h4 class="map-ce-profile-charts__panel-title">Por região · média nos anos filtrados vs média geral</h4>
+                <div id="mapProfileChartPibRegiao" class="map-ce-profile-charts__chart"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-rankings-wrap">
+          <div class="map-ce-rankings">
+            <div class="map-ce-rankings__head">
+              <h3 class="map-ce-rankings__title">Ranking por município</h3>
+              <p class="map-ce-rankings__hint">
+                Mesmos filtros de mês, região e município do mapa · estoque = mês mais recente no filtro · formalização municipal =
+                estoque ÷ população (sedes) · formalização regional = Σ estoque ÷ Σ população por região administrativa (sedes)
+              </p>
+              <div class="map-ce-rankings__toolbar">
+                <label class="map-ce-filter-label" for="mapRankOrder">Ordenação</label>
+                <select id="mapRankOrder" class="map-ce-layer-select map-ce-rankings__select" aria-label="Mostrar os 15 maiores ou os 15 menores valores">
+                  <option value="maiores">15 maiores</option>
+                  <option value="menores">15 menores</option>
+                </select>
+              </div>
+            </div>
+            <div class="map-ce-rankings__grid">
+              <article class="map-ce-rank-panel">
+                <h4 class="map-ce-rank-panel__title">Estoque</h4>
+                <div id="mapRankChartEstoque" class="map-ce-rank-panel__chart"></div>
+              </article>
+              <article class="map-ce-rank-panel">
+                <h4 class="map-ce-rank-panel__title">Admissões</h4>
+                <div id="mapRankChartAdmissoes" class="map-ce-rank-panel__chart"></div>
+              </article>
+              <article class="map-ce-rank-panel">
+                <h4 class="map-ce-rank-panel__title">Desligamentos</h4>
+                <div id="mapRankChartDesligamentos" class="map-ce-rank-panel__chart"></div>
+              </article>
+              <article class="map-ce-rank-panel">
+                <h4 class="map-ce-rank-panel__title">Saldos</h4>
+                <div id="mapRankChartSaldos" class="map-ce-rank-panel__chart"></div>
+              </article>
+              <article class="map-ce-rank-panel map-ce-rank-panel--formalizacao">
+                <h4 class="map-ce-rank-panel__title">Formalização (%)</h4>
+                <div class="map-ce-rank-formalizacao__grid">
+                  <div class="map-ce-rank-formalizacao__col">
+                    <p class="map-ce-rank-formalizacao__subtitle">Por município</p>
+                    <div id="mapRankChartFormalizacaoMun" class="map-ce-rank-panel__chart"></div>
+                  </div>
+                  <div class="map-ce-rank-formalizacao__col">
+                    <p class="map-ce-rank-formalizacao__subtitle">Por região</p>
+                    <div id="mapRegionRankFormalizacao" class="map-ce-rank-panel__chart"></div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-region-charts-wrap">
+          <div class="map-ce-region-charts">
+            <h3 class="map-ce-region-charts__title">Consolidado por região administrativa</h3>
+            <p class="map-ce-region-charts__hint">
+              Mesmos filtros do mapa · estoque no mês mais recente do filtro · saldo somado nos meses filtrados
+            </p>
+            <div class="map-ce-region-charts__grid">
+              <article class="map-ce-region-charts__panel">
+                <h4 class="map-ce-region-charts__panel-title">Estoque por região</h4>
+                <div id="mapRegionPieEstoque" class="map-ce-region-charts__chart"></div>
+              </article>
+              <article class="map-ce-region-charts__panel">
+                <h4 class="map-ce-region-charts__panel-title">Saldo por região</h4>
+                <div id="mapRegionBarSaldo" class="map-ce-region-charts__chart"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-ce-line-wrap">
+          <div class="map-ce-line-block">
+            <h3 class="map-ce-line-block__title">Admissões e desligamentos por mês</h3>
+            <p class="map-ce-line-block__hint">
+              Mesmos filtros do mapa · série temporal por rótulo mês/ano (soma dos municípios no filtro)
+            </p>
+            <div id="mapLineAdmDes" class="map-ce-line-block__chart" aria-label="Gráfico de linhas admissões e desligamentos por mês"></div>
+          </div>
+        </div>
+
+        <div class="map-ce-line-wrap map-ce-line-wrap--stacked">
+          <div class="map-ce-line-block">
+            <h3 class="map-ce-line-block__title">Saldo de empregos por mês</h3>
+            <p class="map-ce-line-block__hint">
+              Mesmos filtros do mapa · soma do saldo dos municípios em cada mês/ano (valores podem ser negativos)
+            </p>
+            <div id="mapBarSaldoMes" class="map-ce-line-block__chart" aria-label="Gráfico de barras saldo de empregos por mês"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="rd-dotnav" aria-label="Seções da análise">
+    <a href="#resumo" data-label="Resumo"></a>
+    <a href="#mapa" data-label="Mapa"></a>
+    <a href="#ranking" data-label="Ranking"></a>
+    <a href="#metricas" data-label="Métricas"></a>
+  </nav>
+
+  <footer class="site-footer" aria-label="Rodapé institucional">
+    <div class="site-footer__wrapper">
+      <div class="site-footer__brand">
+        <a class="site-footer__link-gov" href="http://www.trabalho.ce.gov.br" target="_blank" rel="noopener noreferrer">
+          <h2>TRABALHO.CE.GOV.BR</h2>
+        </a>
+      </div>
+      <div class="site-footer__content">
+        <div class="site-footer__box">
+          <h2>Sede da Secretaria do Trabalho do Estado do Ceará - SET</h2>
+          <p>
+            Rua Rufino de Alencar, 134 - Centro<br>
+            Fortaleza, CE<br>
+            CEP: 60.060-145
+          </p>
+        </div>
+        <div class="site-footer__box">
+          <h2>Horário de Atendimento</h2>
+          <p>08 às 17 horas</p>
+          <h2>Telefone</h2>
+          <p>(85) 3376-1100</p>
+          <h2>E-mail</h2>
+          <p><a href="mailto:trabalho@trabalho.ce.gov.br">trabalho@trabalho.ce.gov.br</a></p>
+        </div>
+        <div class="site-footer__box">
+          <h2>Nossos canais</h2>
+          <ul class="site-footer__social">
+            <li>
+              <a href="https://facebook.com/trabalho.ce" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                <span>Facebook</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://instagram.com/trabalho.ce" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                <span>Instagram</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="site-footer__box site-footer__copyright">
+          <p>
+            © 2017 - 2026 - Governo do Estado do Ceará<br>
+            Todos os direitos reservados
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/maplibre-gl@4.1.1/dist/maplibre-gl.js" crossorigin="anonymous"></script>
+  <script src="/static/js/map-ce-regioes.js"></script>
+  <script src="/static/js/analise-leste.js"></script>
+  <script src="/static/js/mapa-app.js"></script>
+</body>
+</html>
