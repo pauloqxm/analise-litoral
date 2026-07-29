@@ -1820,18 +1820,43 @@
   }
 
   .map-ce-kpis-bar.map-ce-kpis-bar--side {
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    flex: none;
   }
 
   .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card {
-    flex: 1 1 calc(50% - 8px);
-    min-width: 140px;
+    flex: none;
+    min-width: 0;
+    min-height: 0;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__label {
+    font-size: 0.65rem;
+    line-height: 1.2;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__value {
+    font-size: 1.05rem;
+    word-break: normal;
+    overflow-wrap: anywhere;
   }
 
   .map-ce-kpis-bar.map-ce-kpis-bar--profile {
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    flex: none;
   }
 
   .section-map-ce--perfil .map-ce-main {
@@ -1851,6 +1876,7 @@
   }
 
   .section-map-ce--vai-vem .map-ce-kpis-bar--profile {
+    display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
   }
@@ -1861,14 +1887,15 @@
   }
 
   .map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card {
-    flex: 1 1 calc(50% - 8px);
-    min-width: 140px;
+    flex: none;
+    min-width: 0;
+    padding: 10px 12px;
   }
 
   .section-map-ce--perfil.section-map-ce--empresa-grupamento-layer .map-ce-kpi-card--empresa-grupamento,
   .section-map-ce--perfil.section-map-ce--empresas-vinculos-layer .map-ce-kpi-card--empresas-vinculos,
   .section-map-ce--perfil.section-map-ce--vinculo-escolaridade-layer .map-ce-kpi-card--vinculo-escolaridade {
-    flex: 1 1 100%;
+    grid-column: 1 / -1;
     width: 100%;
     min-width: 0;
     max-width: none;
@@ -1888,22 +1915,70 @@
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 720px) {
   .map-ce-kpis-bar.map-ce-kpis-bar--side {
-    flex-direction: column;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .map-ce-main__kpis {
+    padding: 10px;
+  }
+
+  .map-ce-main__kpis-title {
+    margin-bottom: 8px;
+    font-size: 0.68rem;
   }
 
   .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card {
-    flex: 1 1 auto;
+    padding: 8px 10px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__value {
+    font-size: 0.98rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .map-ce-kpis-bar.map-ce-kpis-bar--side {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card {
+    flex: none;
     min-width: 0;
+    padding: 8px 9px;
+    gap: 7px;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__label {
+    font-size: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+
+  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card__value {
+    font-size: 0.92rem;
+    line-height: 1.15;
   }
 
   .map-ce-kpis-bar.map-ce-kpis-bar--profile {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
   }
 
   .map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card {
-    flex: 1 1 auto;
+    flex: none;
     min-width: 0;
   }
 }
@@ -2874,11 +2949,6 @@
   .map-ce-cg-chart-panel__chart--line,
   .map-ce-line-block__chart {
     min-height: 240px;
-  }
-
-  .map-ce-kpis-bar.map-ce-kpis-bar--side .map-ce-kpi-card,
-  .map-ce-kpis-bar.map-ce-kpis-bar--profile .map-ce-kpi-card {
-    flex: 1 1 100%;
   }
 
   .map-ce-popup {
