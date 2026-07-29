@@ -597,14 +597,20 @@ body.app-redesign canvas {
 }
 
 body.app-redesign .content,
-body.app-redesign #secaoMapaCe,
-body.app-redesign .section-map-ce,
 body.app-redesign .map-ce-cg-charts-wrap,
 body.app-redesign .map-ce-cg-rankings-wrap,
 body.app-redesign .map-ce-cg-analytics,
 body.app-redesign .map-ce-cg-chart-panel {
   min-width: 0;
   max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mantém a coluna central (margens laterais) — não forçar 100% no shell da Análise */
+body.app-redesign #secaoMapaCe.section-map-ce {
+  max-width: var(--layout-max);
+  width: 100%;
+  min-width: 0;
   box-sizing: border-box;
 }
 
