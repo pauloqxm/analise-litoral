@@ -3112,11 +3112,11 @@ function ceResolveSalarioOverlayDisplay(agg, desdob) {
   const parts = [];
   const titleParts = [];
   if (Number.isFinite(aloj)) {
-    parts.push(`A ${ceFormatSalarioOverlayLabel(aloj)}`);
+    parts.push(`Aloj. ${ceFormatSalarioOverlayLabel(aloj)}`);
     titleParts.push(`Alojamento ${ceFormatCurrencyPt(aloj)}`);
   }
   if (Number.isFinite(alim)) {
-    parts.push(`L ${ceFormatSalarioOverlayLabel(alim)}`);
+    parts.push(`Alim. ${ceFormatSalarioOverlayLabel(alim)}`);
     titleParts.push(`Alimentação ${ceFormatCurrencyPt(alim)}`);
   }
   if (!parts.length) return null;
