@@ -44,7 +44,7 @@ def favicon() -> FileResponse:
 def api_meta() -> dict:
     return {
         "fonte": "Planilha SET Análise Região Leste (Google Sheets)",
-        "modelo": "abas=sobre|analise_leste",
+        "modelo": "abas=sobre|analise_leste|pretensoes",
         "api": "/mapa?aba=sobre",
-        "abas": ["sobre", "analise_leste"],
+        "abas": ["sobre", "analise_leste", "pretensoes"],
     }

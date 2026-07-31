@@ -3,6 +3,7 @@ const CE_REGIOES_GEO_URL = "/static/geo/ce_regioes.geojson";
 const MAP_TABS = {
   sobre: { label: "Sobre", icon: "fa-solid fa-circle-info" },
   analise_leste: { label: "Análise", icon: "fa-solid fa-map-location-dot" },
+  pretensoes: { label: "Pretensões", icon: "fa-solid fa-cloud" },
 };
 
 const PAGE_META = {
@@ -15,6 +16,11 @@ const PAGE_META = {
     title: "Análise Região Leste",
     desc: "Mercado de trabalho formal por município: admitidos, desligados, saldo e estoque mensal por grande grupamento e desdobramento (Alojamento e alimentação), com filtros por referência, região e município.",
     status: "Mapa + planilha SET Análise Região Leste",
+  },
+  pretensoes: {
+    title: "Pretensões ocupacionais",
+    desc: "Desempregados por ocupação pretendida (Alojamento e alimentação) nos municípios da Região Leste, com mapa e ranking de ocupações.",
+    status: "Mapa + ranking de ocupações",
   },
 };
 
@@ -32,6 +38,7 @@ const els = {
   pageIdentIcon: document.getElementById("pageIdentIcon"),
   secaoSobre: document.getElementById("secaoSobre"),
   secaoMapaCe: document.getElementById("secaoMapaCe"),
+  secaoDesempregados: document.getElementById("secaoDesempregados"),
   mapCeRegioes: document.getElementById("mapCeRegioes"),
   mapCeLegend: document.getElementById("mapCeLegend"),
   rdRefMesAnoHero: document.getElementById("rdRefMesAnoHero"),
@@ -73,8 +80,11 @@ function syncPageHeader() {
   document.title =
     state.abaAtual === "sobre"
       ? "SET · Sobre · Análise Região Leste"
-      : "SET · Análise Região Leste";
+      : state.abaAtual === "pretensoes"
+        ? "SET · Pretensões ocupacionais"
+        : "SET · Análise Região Leste";
   document.body.classList.toggle("rd-tab--analise", state.abaAtual === "analise_leste");
+  document.body.classList.toggle("rd-tab--pretensoes", state.abaAtual === "pretensoes");
   document.body.classList.toggle("rd-tab--sobre", state.abaAtual === "sobre");
 }
 
@@ -137,12 +147,19 @@ function syncHeroReference() {
 function syncSectionsVisibility() {
   const isSobre = state.abaAtual === "sobre";
   const isAnalise = state.abaAtual === "analise_leste";
+  const isPretensoes = state.abaAtual === "pretensoes";
   if (els.secaoSobre) els.secaoSobre.hidden = !isSobre;
   if (els.secaoMapaCe) els.secaoMapaCe.hidden = !isAnalise;
+  if (els.secaoDesempregados) els.secaoDesempregados.hidden = !isPretensoes;
 }
 
 function syncMapSection() {
   syncSectionsVisibility();
+
+  if (state.abaAtual === "pretensoes") {
+    window.desempregadosApi?.onPageActivate?.();
+    return;
+  }
 
   if (state.abaAtual !== "analise_leste") {
     window.cagedGrupamentosApi?.restoreFullMunicipioFilter?.();
@@ -199,7 +216,7 @@ function loadTab(sheetName) {
   syncMapSection();
   if (sheetName === "analise_leste" && location.hash) {
     /* mantém âncora se houver */
-  } else if (sheetName === "sobre") {
+  } else if (sheetName === "sobre" || sheetName === "pretensoes") {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
@@ -247,9 +264,12 @@ function init() {
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      if (state.abaAtual !== "analise_leste") return;
-      window.ceRegioesMapApi?.resize();
-      window.cagedGrupamentosApi?.resizeCharts?.();
+      if (state.abaAtual === "analise_leste") {
+        window.ceRegioesMapApi?.resize();
+        window.cagedGrupamentosApi?.resizeCharts?.();
+      } else if (state.abaAtual === "pretensoes") {
+        window.desempregadosApi?.resize?.();
+      }
     }, 160);
   });
 

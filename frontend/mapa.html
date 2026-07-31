@@ -1945,6 +1945,89 @@
         </div>
       </div>
     </section>
+
+      <section id="secaoDesempregados" class="rd-desemp" hidden aria-labelledby="desempTitulo">
+        <div class="rd-hero-row">
+          <div>
+            <h1 id="desempTitulo">Pretensões ocupacionais</h1>
+            <p>
+              Desempregados por ocupação pretendida nos municípios da Região Leste,
+              recorte de <strong>Alojamento e alimentação</strong>. Clique no mapa ou nas barras para filtrar.
+            </p>
+          </div>
+          <div class="rd-source-tag">Fonte: pretensões profissionais · Leste</div>
+        </div>
+
+        <div class="rd-desemp__toolbar">
+          <div class="rd-desemp__field">
+            <label class="map-ce-filter-label" for="desempFilterMunicipio">Município</label>
+            <select id="desempFilterMunicipio" class="map-ce-layer-select" aria-label="Filtrar por município">
+              <option value="">Todos os municípios</option>
+            </select>
+          </div>
+          <div class="rd-desemp__field">
+            <label class="map-ce-filter-label" for="desempFilterGrupo">Grupo</label>
+            <select id="desempFilterGrupo" class="map-ce-layer-select" aria-label="Filtrar por grupo de ocupação">
+              <option value="">Alojamento e alimentação</option>
+              <option value="alojamento">Só Alojamento</option>
+              <option value="alimentacao">Só Alimentação</option>
+            </select>
+          </div>
+          <button type="button" class="map-ce-filter-btn" id="desempClearFilters">Limpar filtros</button>
+          <p id="desempStatus" class="rd-desemp__status" role="status"></p>
+        </div>
+
+        <div class="rd-desemp__kpis" aria-live="polite">
+          <article class="rd-desemp__kpi">
+            <span class="rd-desemp__kpi-label">Total de pretensões</span>
+            <strong class="rd-desemp__kpi-value" id="desempKpiTotal">—</strong>
+          </article>
+          <article class="rd-desemp__kpi">
+            <span class="rd-desemp__kpi-label">Ocupações</span>
+            <strong class="rd-desemp__kpi-value" id="desempKpiOcup">—</strong>
+          </article>
+          <article class="rd-desemp__kpi">
+            <span class="rd-desemp__kpi-label">Municípios</span>
+            <strong class="rd-desemp__kpi-value" id="desempKpiMun">—</strong>
+          </article>
+          <article class="rd-desemp__kpi">
+            <span class="rd-desemp__kpi-label">Recorte</span>
+            <strong class="rd-desemp__kpi-value rd-desemp__kpi-value--text" id="desempKpiRecorte">Todos</strong>
+          </article>
+        </div>
+
+        <div class="rd-desemp__grid">
+          <div class="rd-desemp__map-panel">
+            <h2 class="rd-desemp__panel-title">Mapa por município</h2>
+            <p class="rd-desemp__panel-hint">Coropleta do total de pretensões no filtro ativo</p>
+            <div id="desempMap" class="rd-desemp__map" role="application" aria-label="Mapa de pretensões ocupacionais"></div>
+            <div id="desempLegend" class="rd-desemp__legend" aria-live="polite"></div>
+          </div>
+          <div class="rd-desemp__chart-panel">
+            <h2 class="rd-desemp__panel-title">Ocupações com mais pretensões</h2>
+            <p class="rd-desemp__panel-hint">Barras com o nome completo · clique para filtrar o mapa</p>
+            <div id="desempOcupChart" class="rd-desemp__chart" aria-label="Gráfico de ocupações por pretensões"></div>
+            <p id="desempChartEmpty" class="rd-desemp__empty" hidden>Sem ocupações neste filtro.</p>
+          </div>
+        </div>
+
+        <div class="rd-desemp__table-wrap">
+          <h2 class="rd-desemp__panel-title">Ranking de ocupações</h2>
+          <div class="rd-desemp__table-scroll">
+            <table class="rd-desemp__table" aria-label="Ranking de ocupações pretendidas">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Ocupação</th>
+                  <th scope="col">Grupo</th>
+                  <th scope="col">Quantidade</th>
+                </tr>
+              </thead>
+              <tbody id="desempTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
   </main>
 
   <nav class="rd-dotnav" aria-label="Seções da análise">
@@ -2008,6 +2091,7 @@
   <script src="https://unpkg.com/maplibre-gl@4.1.1/dist/maplibre-gl.js" crossorigin="anonymous"></script>
   <script src="/static/js/map-ce-regioes.js"></script>
   <script src="/static/js/analise-leste.js"></script>
+  <script src="/static/js/desempregados-ocupacoes.js"></script>
   <script src="/static/js/mapa-app.js"></script>
 </body>
 </html>
