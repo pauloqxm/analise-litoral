@@ -687,7 +687,7 @@ function cgEnrichAggDesdobramentoEstoque(aggByCod, rows, grupoKey) {
 }
 
 function cgFilterSalarioRowsIgnoringDesdobramento(rows) {
-  const anos = cgGetSelectedAnos();
+  /* Salário é anual na planilha própria: não aplica filtro de ano/mês do CAGED mensal. */
   const muns = cgGetSelectedMunicipioCodes();
   const regs = cgGetSelectedRegioes();
   let allowedByReg = null;
@@ -701,7 +701,6 @@ function cgFilterSalarioRowsIgnoringDesdobramento(rows) {
     }
   }
   return rows.filter((row) => {
-    if (anos.length && !anos.includes(String(row.ano))) return false;
     if (muns.length && !muns.includes(String(row.codigo))) return false;
     if (allowedByReg && !allowedByReg.has(String(row.codigo))) return false;
     return true;
@@ -1725,7 +1724,7 @@ function cgRefreshMap() {
     } else {
       const nComDado = [...aggByCod.values()].filter((a) => a.salarioMedio != null).length;
       cgSetStatus(
-        `Salário médio · ${desdob} · ${nComDado.toLocaleString("pt-BR")} municípios com dado · anual (independente do mês)`
+        `Salário médio · ${desdob} · ${nComDado.toLocaleString("pt-BR")} municípios com dado · anual (independente do mês/ano do estoque)`
       );
     }
   } else {

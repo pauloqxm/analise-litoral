@@ -2414,7 +2414,7 @@
   font-size: 10px;
   font-weight: 700;
   color: #14532d;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(22, 163, 74, 0.45);
   border-radius: 4px;
   padding: 1px 4px;
@@ -2423,6 +2423,11 @@
   user-select: none;
   line-height: 1.2;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  z-index: 3;
+}
+
+.maplibregl-marker:has(.ce-salario-label) {
+  z-index: 3 !important;
 }
 
 .map-ce-regioes-foot {

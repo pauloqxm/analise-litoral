@@ -3038,6 +3038,94 @@ function ceBuildSedeCoordsByCodigo(sedesFc) {
   return out;
 }
 
+/** Centroide aproximado do polígono (fallback se a sede não existir). */
+function ceFeatureCentroidLngLat(feature) {
+  const g = feature?.geometry;
+  if (!g) return null;
+  if (g.type === "Point" && Array.isArray(g.coordinates) && g.coordinates.length >= 2) {
+    return [Number(g.coordinates[0]), Number(g.coordinates[1])];
+  }
+  let ring = null;
+  if (g.type === "Polygon") ring = g.coordinates?.[0];
+  else if (g.type === "MultiPolygon") ring = g.coordinates?.[0]?.[0];
+  if (!Array.isArray(ring) || !ring.length) return null;
+  let sx = 0;
+  let sy = 0;
+  let n = 0;
+  for (const c of ring) {
+    if (!c || c.length < 2) continue;
+    const x = Number(c[0]);
+    const y = Number(c[1]);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+    sx += x;
+    sy += y;
+    n += 1;
+  }
+  if (!n) return null;
+  return [sx / n, sy / n];
+}
+
+function ceBuildPolygonCoordsByCodigo(geojson) {
+  /** @type {Map<number, [number, number]>} */
+  const out = new Map();
+  for (const f of geojson?.features || []) {
+    const cod = ceGeoCodiToCodigoMunicipio(f.properties?.GEO_CODI);
+    if (cod == null || out.has(cod)) continue;
+    const ll = ceFeatureCentroidLngLat(f);
+    if (ll) out.set(cod, ll);
+  }
+  return out;
+}
+
+function ceBuildSalarioOverlayCoordsByCodigo() {
+  const fromSedes = ceBuildSedeCoordsByCodigo(
+    ceMapRuntime.sedesGeoJson?.features?.length ? ceMapRuntime.sedesGeoJson : null
+  );
+  const fromPolys = ceBuildPolygonCoordsByCodigo(
+    ceMapRuntime.currentMergedGeoJson || ceMapRuntime.geoJsonBase
+  );
+  if (!fromSedes.size) return fromPolys;
+  if (!fromPolys.size) return fromSedes;
+  /** @type {Map<number, [number, number]>} */
+  const out = new Map(fromPolys);
+  for (const [cod, ll] of fromSedes) out.set(cod, ll);
+  return out;
+}
+
+/**
+ * Texto do rótulo de salário: com desdobramento específico usa salarioMedio;
+ * com «Todos» mostra Alojamento e/ou Alimentação disponíveis.
+ */
+function ceResolveSalarioOverlayDisplay(agg, desdob) {
+  if (!agg) return null;
+  const isTodos = desdob === "todos" || desdob == null || desdob === "";
+  if (!isTodos) {
+    const val = Number(agg.salarioMedio);
+    if (!Number.isFinite(val)) return null;
+    return {
+      text: ceFormatSalarioOverlayLabel(val),
+      title: `${agg.municipio || "Município"} · ${ceFormatCurrencyPt(val)}`,
+    };
+  }
+  const aloj = Number(agg.salarioAlojamento);
+  const alim = Number(agg.salarioAlimentacao);
+  const parts = [];
+  const titleParts = [];
+  if (Number.isFinite(aloj)) {
+    parts.push(`A ${ceFormatSalarioOverlayLabel(aloj)}`);
+    titleParts.push(`Alojamento ${ceFormatCurrencyPt(aloj)}`);
+  }
+  if (Number.isFinite(alim)) {
+    parts.push(`L ${ceFormatSalarioOverlayLabel(alim)}`);
+    titleParts.push(`Alimentação ${ceFormatCurrencyPt(alim)}`);
+  }
+  if (!parts.length) return null;
+  return {
+    text: parts.join(" · "),
+    title: `${agg.municipio || "Município"} · ${titleParts.join(" · ")}`,
+  };
+}
+
 /**
  * Sobreposição «Salário médio»: rótulos em R$ sobre cada município com dado
  * (respeita grupamento/desdobramento/filtros da Análise Leste).
@@ -3047,7 +3135,7 @@ function ceRefreshSalarioMedioOverlayLabels() {
   ceClearSalarioMedioOverlayLabels();
   if (!map || !ceIsCagedGrupamentosMode() || !ceIsSalarioMedioOverlayOn()) {
     const st = document.getElementById("cgStatus");
-    if (st && String(st.textContent || "").includes("Sobreposição salário médio")) {
+    if (st && String(st.textContent || "").includes("Sobreposição salário")) {
       window.cagedGrupamentosApi?.setStatus?.("");
     }
     return;
@@ -3057,38 +3145,44 @@ function ceRefreshSalarioMedioOverlayLabels() {
   if (typeof api?.getSalarioAggByCodigo !== "function") return;
 
   const desdob = api.getSelectedDesdobramento?.();
-  if (desdob === "todos" || desdob == null) {
-    api.setStatus?.(
-      "Sobreposição salário médio: selecione o desdobramento Alojamento ou Alimentação."
-    );
+  const aggByCod = api.getSalarioAggByCodigo();
+  if (!(aggByCod instanceof Map) || !aggByCod.size) {
+    api.setStatus?.("Sobreposição salário: sem dados no filtro atual.");
     return;
   }
 
-  const aggByCod = api.getSalarioAggByCodigo();
-  if (!(aggByCod instanceof Map) || !aggByCod.size) return;
+  const coordsByCod = ceBuildSalarioOverlayCoordsByCodigo();
+  if (!coordsByCod.size) {
+    api.setStatus?.("Sobreposição salário: coordenadas municipais indisponíveis.");
+    return;
+  }
 
-  const coordsByCod = ceBuildSedeCoordsByCodigo(
-    ceMapRuntime.sedesGeoJson?.features?.length ? ceMapRuntime.sedesGeoJson : null
-  );
-  if (!coordsByCod.size) return;
-
+  let placed = 0;
   for (const [cod, agg] of aggByCod) {
-    const val = Number(agg?.salarioMedio);
-    if (!Number.isFinite(val)) continue;
+    const display = ceResolveSalarioOverlayDisplay(agg, desdob);
+    if (!display) continue;
     const coords = coordsByCod.get(Number(cod));
     if (!coords) continue;
     const el = document.createElement("span");
     el.className = "ce-salario-label";
-    el.textContent = ceFormatSalarioOverlayLabel(val);
-    el.title = `${agg.municipio || "Município"} · ${ceFormatCurrencyPt(val)}`;
+    el.textContent = display.text;
+    el.title = display.title;
     const marker = new maplibregl.Marker({ element: el, anchor: "center" })
       .setLngLat(coords)
       .addTo(map);
     ceMapRuntime.salarioLabelMarkers.push(marker);
+    placed += 1;
+  }
+
+  if (!placed) {
+    api.setStatus?.(
+      "Sobreposição salário: nenhum município com remuneração válida no filtro (valores ***** são omitidos)."
+    );
+    return;
   }
 
   const st = document.getElementById("cgStatus");
-  if (st && String(st.textContent || "").includes("Sobreposição salário médio")) {
+  if (st && String(st.textContent || "").includes("Sobreposição salário")) {
     api.setStatus?.("");
   }
 }
