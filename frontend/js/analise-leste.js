@@ -979,6 +979,10 @@ const CG_COLOR_DESL = "#ea580c";
 const CG_COLOR_SALDO_LINE = "#1d4ed8";
 const CG_COLOR_MOV = "#7c3aed";
 const CG_COMPARE_ESTOQUE_COLORS = ["#1a4d2e", "#2563eb", "#ea580c", "#7c3aed"];
+const CG_SAZONALIDADE_YEAR_COLORS = ["#1a4d2e", "#2563eb", "#ea580c", "#7c3aed", "#0d9488", "#be123c"];
+const CG_MES_LABELS_SHORT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+/** Meses de pico turístico no litoral leste (1-indexed). */
+const CG_SAZONALIDADE_PICOS = new Set([1, 7, 12]);
 const CG_COMPARE_MUN_IDS = ["cgCompareMun1", "cgCompareMun2", "cgCompareMun3", "cgCompareMun4"];
 const CG_COMPARE_EMPTY = "";
 /** @type {string[]} */
@@ -1431,6 +1435,162 @@ function cgUpdateMovimentacaoLineChart(rows, grupoKey) {
   cgCharts.movimentacaoLine = chart;
 }
 
+/**
+ * Estoque mensal por calendário (mês 1–12 × ano) para comparação YoY lado a lado.
+ * @returns {{ years: number[], byYearMonth: Map<number, number[]>, yoyByYearMonth: Map<number, (number|null)[]> }}
+ */
+function cgBuildSazonalidadeYoY(rows, grupoKey) {
+  const grupoRows = cgRowsForGrupo(rows, grupoKey).filter((r) => r.mesAnoKey);
+  /** @type {Map<string, number>} chave YYYY-MM → estoque */
+  const byKey = new Map();
+  for (const row of grupoRows) {
+    const key = row.mesAnoKey;
+    byKey.set(key, (byKey.get(key) || 0) + (Number(row.estoque) || 0));
+  }
+
+  const years = [
+    ...new Set(
+      [...byKey.keys()]
+        .map((k) => {
+          const m = /^(\d{4})-(\d{2})$/.exec(k);
+          return m ? parseInt(m[1], 10) : null;
+        })
+        .filter((y) => Number.isFinite(y))
+    ),
+  ].sort((a, b) => a - b);
+
+  /** @type {Map<number, number[]>} */
+  const byYearMonth = new Map();
+  for (const year of years) {
+    const vals = Array(12).fill(null);
+    for (let mi = 1; mi <= 12; mi++) {
+      const key = `${year}-${String(mi).padStart(2, "0")}`;
+      if (byKey.has(key)) vals[mi - 1] = byKey.get(key);
+    }
+    byYearMonth.set(year, vals);
+  }
+
+  /** Variação % vs mesmo mês do ano anterior. */
+  /** @type {Map<number, (number|null)[]>} */
+  const yoyByYearMonth = new Map();
+  for (const year of years) {
+    const cur = byYearMonth.get(year) || [];
+    const prev = byYearMonth.get(year - 1);
+    const yoy = cur.map((v, i) => {
+      if (!Number.isFinite(v)) return null;
+      const p = prev?.[i];
+      if (!Number.isFinite(p) || p === 0) return null;
+      return ((v - p) / p) * 100;
+    });
+    yoyByYearMonth.set(year, yoy);
+  }
+
+  return { years, byYearMonth, yoyByYearMonth };
+}
+
+function cgUpdateSazonalidadeYoYChart(rows, grupoKey) {
+  const el = document.getElementById("cgChartSazonalidadeYoY");
+  if (!el || typeof ApexCharts === "undefined") return;
+  cgDestroyChart("sazonalidadeYoY");
+
+  const { years, byYearMonth, yoyByYearMonth } = cgBuildSazonalidadeYoY(
+    cgFilterRowsIgnoreMes(rows),
+    grupoKey
+  );
+  const hasData = years.some((y) => (byYearMonth.get(y) || []).some((v) => Number.isFinite(v)));
+  const series = hasData
+    ? years.map((year) => ({
+        name: String(year),
+        data: (byYearMonth.get(year) || []).map((v) => (Number.isFinite(v) ? v : null)),
+      }))
+    : [{ name: "Sem dados", data: Array(12).fill(0) }];
+
+  const chart = new ApexCharts(el, {
+    chart: {
+      type: "bar",
+      height: 380,
+      toolbar: { show: false },
+      animations: { speed: 280 },
+      fontFamily: "system-ui, Segoe UI, sans-serif",
+      foreColor: "#1f2d78",
+      stacked: false,
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: years.length > 3 ? "78%" : "62%",
+        borderRadius: 3,
+        borderRadiusApplication: "end",
+      },
+    },
+    colors: CG_SAZONALIDADE_YEAR_COLORS,
+    series,
+    xaxis: {
+      categories: CG_MES_LABELS_SHORT,
+      labels: {
+        style: {
+          fontSize: "11px",
+          fontWeight: 600,
+          colors: CG_MES_LABELS_SHORT.map((_, i) =>
+            CG_SAZONALIDADE_PICOS.has(i + 1) ? "#c2410c" : "#1f2d78"
+          ),
+        },
+      },
+      title: {
+        text: "Mês do ano (picos turísticos: jan · jul · dez)",
+        style: { fontSize: "11px", color: "#64748b" },
+      },
+    },
+    yaxis: {
+      labels: { formatter: (v) => cgFmt.format(Number(v) || 0), style: { fontSize: "11px" } },
+      title: { text: "Estoque mensal", style: { fontSize: "11px", color: "#64748b" } },
+    },
+    legend: { position: "top", horizontalAlign: "left", fontSize: "12px" },
+    dataLabels: { enabled: false },
+    tooltip: {
+      shared: true,
+      intersect: false,
+      custom: ({ series: sArr, dataPointIndex, w }) => {
+        const mesLabel = CG_MES_LABELS_SHORT[dataPointIndex] || "";
+        const pico = CG_SAZONALIDADE_PICOS.has(dataPointIndex + 1)
+          ? ` <span style="color:#c2410c;font-weight:700">(pico)</span>`
+          : "";
+        let rowsHtml = "";
+        const seriesNames = w?.globals?.seriesNames || [];
+        for (let si = 0; si < (sArr?.length || 0); si++) {
+          const yearName = seriesNames[si] || String(years[si] ?? "");
+          const yearNum = parseInt(yearName, 10);
+          const val = sArr[si]?.[dataPointIndex];
+          if (!Number.isFinite(val)) continue;
+          const color =
+            w?.globals?.colors?.[si] ||
+            CG_SAZONALIDADE_YEAR_COLORS[si % CG_SAZONALIDADE_YEAR_COLORS.length];
+          const yoy = Number.isFinite(yearNum)
+            ? yoyByYearMonth.get(yearNum)?.[dataPointIndex]
+            : null;
+          const yoyTxt =
+            yoy == null ? "" : ` · YoY ${yoy >= 0 ? "+" : ""}${cgFmtPct(yoy, 1)}%`;
+          rowsHtml += `<div style="display:flex;gap:8px;align-items:baseline;margin-top:4px">
+            <span style="width:8px;height:8px;border-radius:50%;background:${color};flex-shrink:0"></span>
+            <span style="font-weight:700">${yearName}</span>
+            <span>${cgFmt.format(val)} vínculos${yoyTxt}</span>
+          </div>`;
+        }
+        if (!rowsHtml) {
+          rowsHtml = `<div style="margin-top:4px;color:#64748b">Sem estoque neste mês</div>`;
+        }
+        return `<div class="apexcharts-tooltip-title" style="font-family:system-ui,Segoe UI,sans-serif;padding:8px 10px">
+          ${mesLabel}${pico}
+          ${rowsHtml}
+        </div>`;
+      },
+    },
+    grid: { borderColor: "#e2e8f0", padding: { bottom: 4 } },
+  });
+  chart.render();
+  cgCharts.sazonalidadeYoY = chart;
+}
+
 function cgGetCompareMunicipioCodes() {
   const codes = [];
   const seen = new Set();
@@ -1600,6 +1760,7 @@ function cgUpdateCompareEstoqueLineChart(rows, grupoKey) {
 function cgUpdateAnalyticsCharts(filtered, grupoKey) {
   const list = cgBuildMunicipioAnalyticsList(filtered, grupoKey);
   cgUpdateMovimentacaoLineChart(cgState.rows, grupoKey);
+  cgUpdateSazonalidadeYoYChart(cgState.rows, grupoKey);
   cgUpdateSaldoMunChart(list);
   cgUpdateRotatividadeChart(list);
   cgUpdatePesoEstoqueChart(list);

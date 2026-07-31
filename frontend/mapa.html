@@ -1353,7 +1353,7 @@
             <div class="map-ce-cg-analytics__head">
               <h3 class="map-ce-cg-analytics__title">Métricas centrais do setor</h3>
               <p class="map-ce-cg-analytics__hint">
-                Movimentação no período, saldo, rotatividade, peso do estoque setorial e estagnação · mesmos filtros de referência, região e município.
+                Movimentação no período, sazonalidade YoY, saldo, rotatividade, peso do estoque setorial e estagnação · mesmos filtros de referência, região e município.
                 No mapa, use o indicador <strong>Total por grupamento</strong> (e o desdobramento Alojamento, se desejar) para o mapa de calor municipal.
               </p>
             </div>
@@ -1365,6 +1365,16 @@
                   Admitidos, desligados e saldo mês a mês · respeita ano, região, município, grupamento e desdobramento (ignora o filtro de mês para mostrar a série)
                 </p>
                 <div id="cgChartMovimentacaoLine" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--line" aria-label="Gráfico de linha da movimentação no período"></div>
+              </article>
+            </div>
+
+            <div class="map-ce-cg-analytics__grid">
+              <article class="map-ce-cg-chart-panel map-ce-cg-chart-panel--analytics map-ce-cg-chart-panel--line">
+                <h3 class="map-ce-cg-chart-panel__title">Índice de sazonalidade turística (YoY)</h3>
+                <p class="map-ce-cg-chart-panel__hint map-ce-cg-chart-panel__hint--show">
+                  Estoque mensal do mesmo mês em anos diferentes · picos típicos em jan, jul e dez · respeita região, município, grupamento e desdobramento (ignora filtro de mês; anos selecionados limitam as séries)
+                </p>
+                <div id="cgChartSazonalidadeYoY" class="map-ce-cg-chart-panel__chart map-ce-cg-chart-panel__chart--line" aria-label="Sazonalidade turística ano a ano por mês"></div>
               </article>
             </div>
 
